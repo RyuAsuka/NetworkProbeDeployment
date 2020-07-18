@@ -82,6 +82,19 @@ def _build_tree_string(root, curr_index, index=False, delimiter='-'):
 
 
 def pre_order(tree):
+    """
+    使用栈方式前序遍历二叉树
+
+    Parameters
+    ----------
+    tree: TreeNode
+        二叉树根节点
+
+    Returns
+    -------
+    list of TreeNode:
+        二叉树的前序遍历顺序
+    """
     result = []
     stack = [tree]
     while stack:
@@ -149,6 +162,9 @@ class TreeNode(object):
         return 'Node({})'.format(self.name)
 
     def pprint(self):
+        """
+        打印二叉树
+        """
         lines = _build_tree_string(self, 0, False, '-')[0]
         print('\n' + '\n'.join((line.rstrip() for line in lines)), end='')
 
@@ -157,4 +173,12 @@ class TreeNode(object):
 
     @property
     def is_leaf(self):
+        """
+        指示该节点是否是叶子节点（即左右子节点均为空的节点）
+
+        Returns
+        -------
+        boolean:
+            如果是叶子节点返回 True，否则为 False
+        """
         return self.left is None and self.right is None

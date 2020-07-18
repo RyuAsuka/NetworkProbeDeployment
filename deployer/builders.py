@@ -1,6 +1,6 @@
-from src.BinaryTree import TreeNode
-from src.DCNode import DCNode
-from src.Solution import Solution
+from deployer.BinaryTree import TreeNode
+from deployer.DCNode import DCNode
+from deployer.Solution import Solution
 
 
 def build_tree(struct, layer):
@@ -16,7 +16,8 @@ def build_tree(struct, layer):
 
     Returns
     -------
-    TreeNode: The root of built tree.
+    TreeNode:
+        The root of built tree.
     """
     if len(struct) == 1:
         nodes = []
@@ -51,14 +52,15 @@ def build_struct(filename):
     A single number, indicating number of next lines belong to which PDU.
     A number of lines with format: name, ar_min, ar_max.
 
-    Parameter
-    ---------
+    Parameters
+    ----------
     filename: str
         The path of input file.
 
     Returns
     -------
-    list: A list mapping to the PDU networks.
+    list:
+        A list mapping to the PDU networks.
     """
     struct = []
     f = open(filename, 'r')

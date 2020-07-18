@@ -1,3 +1,8 @@
+"""
+定义解集类和求解函数
+"""
+
+
 class Solution(object):
     """
     定义一个二叉树节点的 DPR 插入解
@@ -31,41 +36,14 @@ class Solution(object):
             self.history = history
 
     def __repr__(self):
-        """
-        表示该解的字符串
-        """
         return f'Solution({self.name}: <{self.cI}, {self.cM}, [{self.p[0]}, {self.p[1]}]>, insert_dpr={self.dpr})'
 
     def __ge__(self, other):
-        """
-        重载大于等于运算符，判断一个解是否“大于等于”另一个解
-
-        Parameters
-        ----------
-        other: Solution
-            另一个解
-
-        Returns
-        -------
-        boolean: 返回该解是否大于等于另一个解的布尔值。
-        """
         assert isinstance(other, Solution)
         return self.cI >= other.cI and self.cM >= other.cM and \
                (self.p[0] + self.p[1]) / 2 >= (other.p[0] + other.p[1]) / 2
 
     def __le__(self, other):
-        """
-        重载大于等于运算符，判断一个解是否“小于等于”另一个解
-
-        Parameters
-        ----------
-        other: Solution
-            另一个解
-
-        Returns
-        -------
-        boolean: 返回该解是否小于等于另一个解的布尔值。
-        """
         assert isinstance(other, Solution)
         return self.cI <= other.cI and self.cM <= other.cM and \
                (self.p[0] + self.p[1]) / 2 <= (other.p[0] + other.p[1]) / 2

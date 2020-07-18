@@ -1,6 +1,6 @@
-from src.BinaryTree import post_order
-from src.Solution import solve
-from src.builders import build_tree, build_struct
+from deployer.BinaryTree import post_order
+from deployer.Solution import solve
+from deployer.builders import build_tree, build_struct
 
 
 if __name__ == '__main__':

@@ -1,0 +1,567 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>deployer package &mdash; NetworkProbeDeployment 0.0.1 文档</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script src="_static/translations.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="prev" title="Welcome to NetworkProbeDeployment’s documentation!" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> NetworkProbeDeployment
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">deployer package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-deployer.BinaryTree">deployer.BinaryTree</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-deployer.DCNode">deployer.DCNode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-deployer.Solution">deployer.Solution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-deployer.builders">deployer.builders</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">NetworkProbeDeployment</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>deployer package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/deployer.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="deployer-package">
+<h1>deployer package<a class="headerlink" href="#deployer-package" title="永久链接至标题">¶</a></h1>
+<div class="section" id="module-deployer.BinaryTree">
+<span id="deployer-binarytree"></span><h2>deployer.BinaryTree<a class="headerlink" href="#module-deployer.BinaryTree" title="永久链接至标题">¶</a></h2>
+<p>参考了 BinaryTree 库，定义了二叉树结点，树的表示方法等</p>
+<dl class="class">
+<dt id="deployer.BinaryTree.TreeNode">
+<em class="property">class </em><code class="sig-prename descclassname">deployer.BinaryTree.</code><code class="sig-name descname">TreeNode</code><span class="sig-paren">(</span><em class="sig-param">name</em>, <em class="sig-param">dpr=False</em>, <em class="sig-param">solutions=None</em>, <em class="sig-param">left=None</em>, <em class="sig-param">right=None</em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.BinaryTree.TreeNode" title="永久链接至目标">¶</a></dt>
+<dd><p>基类：<code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>二叉树节点</p>
+<dl class="attribute">
+<dt id="deployer.BinaryTree.TreeNode.name">
+<code class="sig-name descname">name</code><a class="headerlink" href="#deployer.BinaryTree.TreeNode.name" title="永久链接至目标">¶</a></dt>
+<dd><p>该节点的名称</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="deployer.BinaryTree.TreeNode.dpr">
+<code class="sig-name descname">dpr</code><a class="headerlink" href="#deployer.BinaryTree.TreeNode.dpr" title="永久链接至目标">¶</a></dt>
+<dd><p>是否在该节点上部署 DPR</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>boolean</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="deployer.BinaryTree.TreeNode.solutions">
+<code class="sig-name descname">solutions</code><a class="headerlink" href="#deployer.BinaryTree.TreeNode.solutions" title="永久链接至目标">¶</a></dt>
+<dd><p>该节点上的解集列表</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list[<a class="reference internal" href="#deployer.Solution.Solution" title="deployer.Solution.Solution">Solution</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="deployer.BinaryTree.TreeNode.left">
+<code class="sig-name descname">left</code><a class="headerlink" href="#deployer.BinaryTree.TreeNode.left" title="永久链接至目标">¶</a></dt>
+<dd><p>该节点的左子节点</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#deployer.BinaryTree.TreeNode" title="deployer.BinaryTree.TreeNode">TreeNode</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="deployer.BinaryTree.TreeNode.right">
+<code class="sig-name descname">right</code><a class="headerlink" href="#deployer.BinaryTree.TreeNode.right" title="永久链接至目标">¶</a></dt>
+<dd><p>该节点的右子节点</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#deployer.BinaryTree.TreeNode" title="deployer.BinaryTree.TreeNode">TreeNode</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="deployer.BinaryTree.TreeNode.is_leaf">
+<em class="property">property </em><code class="sig-name descname">is_leaf</code><a class="headerlink" href="#deployer.BinaryTree.TreeNode.is_leaf" title="永久链接至目标">¶</a></dt>
+<dd><p>指示该节点是否是叶子节点（即左右子节点均为空的节点）</p>
+<dl class="field-list simple">
+<dt class="field-odd">返回</dt>
+<dd class="field-odd"><p>如果是叶子节点返回 True，否则为 False</p>
+</dd>
+<dt class="field-even">返回类型</dt>
+<dd class="field-even"><p>boolean</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="deployer.BinaryTree.TreeNode.pprint">
+<code class="sig-name descname">pprint</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#deployer.BinaryTree.TreeNode.pprint" title="永久链接至目标">¶</a></dt>
+<dd><p>打印二叉树</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="deployer.BinaryTree.post_order">
+<code class="sig-prename descclassname">deployer.BinaryTree.</code><code class="sig-name descname">post_order</code><span class="sig-paren">(</span><em class="sig-param">tree</em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.BinaryTree.post_order" title="永久链接至目标">¶</a></dt>
+<dd><p>使用栈方式后序遍历二叉树</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数</dt>
+<dd class="field-odd"><p><strong>tree</strong> (<a class="reference internal" href="#deployer.BinaryTree.TreeNode" title="deployer.BinaryTree.TreeNode"><em>TreeNode</em></a>) – 要进行后序遍历的（子）树</p>
+</dd>
+<dt class="field-even">返回</dt>
+<dd class="field-even"><p>后序遍历的节点顺序列表</p>
+</dd>
+<dt class="field-odd">返回类型</dt>
+<dd class="field-odd"><p>list[<a class="reference internal" href="#deployer.BinaryTree.TreeNode" title="deployer.BinaryTree.TreeNode">TreeNode</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="deployer.BinaryTree.pre_order">
+<code class="sig-prename descclassname">deployer.BinaryTree.</code><code class="sig-name descname">pre_order</code><span class="sig-paren">(</span><em class="sig-param">tree</em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.BinaryTree.pre_order" title="永久链接至目标">¶</a></dt>
+<dd><p>使用栈方式前序遍历二叉树</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数</dt>
+<dd class="field-odd"><p><strong>tree</strong> (<a class="reference internal" href="#deployer.BinaryTree.TreeNode" title="deployer.BinaryTree.TreeNode"><em>TreeNode</em></a>) – 二叉树根节点</p>
+</dd>
+<dt class="field-even">返回</dt>
+<dd class="field-even"><p>二叉树的前序遍历顺序</p>
+</dd>
+<dt class="field-odd">返回类型</dt>
+<dd class="field-odd"><p>list of TreeNode</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-deployer.DCNode">
+<span id="deployer-dcnode"></span><h2>deployer.DCNode<a class="headerlink" href="#module-deployer.DCNode" title="永久链接至标题">¶</a></h2>
+<p>数据中心节点类</p>
+<dl class="class">
+<dt id="deployer.DCNode.DCNode">
+<em class="property">class </em><code class="sig-prename descclassname">deployer.DCNode.</code><code class="sig-name descname">DCNode</code><span class="sig-paren">(</span><em class="sig-param">name</em>, <em class="sig-param">ar_min=0</em>, <em class="sig-param">ar_max=0</em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.DCNode.DCNode" title="永久链接至目标">¶</a></dt>
+<dd><p>基类：<code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>定义数据中心节点类。包含节点的名称，最小/最大异常率。其中，最小异常率 &lt;= 最大异常率。</p>
+<dl class="attribute">
+<dt id="deployer.DCNode.DCNode.name">
+<code class="sig-name descname">name</code><a class="headerlink" href="#deployer.DCNode.DCNode.name" title="永久链接至目标">¶</a></dt>
+<dd><p>该节点的名称</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="deployer.DCNode.DCNode.ar_min">
+<code class="sig-name descname">ar_min</code><a class="headerlink" href="#deployer.DCNode.DCNode.ar_min" title="永久链接至目标">¶</a></dt>
+<dd><p>范围为 [0, 1]，该节点的最小异常率</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="deployer.DCNode.DCNode.ar_max">
+<code class="sig-name descname">ar_max</code><a class="headerlink" href="#deployer.DCNode.DCNode.ar_max" title="永久链接至目标">¶</a></dt>
+<dd><p>范围为 [0, 1]，该节点的最大异常率</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-deployer.Solution">
+<span id="deployer-solution"></span><h2>deployer.Solution<a class="headerlink" href="#module-deployer.Solution" title="永久链接至标题">¶</a></h2>
+<p>定义解集类和求解函数</p>
+<dl class="class">
+<dt id="deployer.Solution.Solution">
+<em class="property">class </em><code class="sig-prename descclassname">deployer.Solution.</code><code class="sig-name descname">Solution</code><span class="sig-paren">(</span><em class="sig-param">name</em>, <em class="sig-param">cI=0</em>, <em class="sig-param">cM=0</em>, <em class="sig-param">pl=0</em>, <em class="sig-param">pu=0</em>, <em class="sig-param">dpr=False</em>, <em class="sig-param">history=None</em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.Solution.Solution" title="永久链接至目标">¶</a></dt>
+<dd><p>基类：<code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>定义一个二叉树节点的 DPR 插入解</p>
+<dl class="attribute">
+<dt id="deployer.Solution.Solution.name">
+<code class="sig-name descname">name</code><a class="headerlink" href="#deployer.Solution.Solution.name" title="永久链接至目标">¶</a></dt>
+<dd><p>该解的名称，应和该解所在节点的名称一致。</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="deployer.Solution.Solution.cI">
+<code class="sig-name descname">cI</code><a class="headerlink" href="#deployer.Solution.Solution.cI" title="永久链接至目标">¶</a></dt>
+<dd><p>该解中，插入 DPR 的个数</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="deployer.Solution.Solution.cM">
+<code class="sig-name descname">cM</code><a class="headerlink" href="#deployer.Solution.Solution.cM" title="永久链接至目标">¶</a></dt>
+<dd><p>该解中，该节点下游未插入 DPR 的个数</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="deployer.Solution.Solution.pl">
+<code class="sig-name descname">pl</code><a class="headerlink" href="#deployer.Solution.Solution.pl" title="永久链接至目标">¶</a></dt>
+<dd><p>该解中的异常率下限（&gt;= 0）</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="deployer.Solution.Solution.pu">
+<code class="sig-name descname">pu</code><a class="headerlink" href="#deployer.Solution.Solution.pu" title="永久链接至目标">¶</a></dt>
+<dd><p>该解中的异常率上限 (&lt;= 1)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="deployer.Solution.Solution.dpr">
+<code class="sig-name descname">dpr</code><a class="headerlink" href="#deployer.Solution.Solution.dpr" title="永久链接至目标">¶</a></dt>
+<dd><p>该解中，该节点是否插入 DPR</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>boolean</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="deployer.Solution.Solution.history">
+<code class="sig-name descname">history</code><a class="headerlink" href="#deployer.Solution.Solution.history" title="永久链接至目标">¶</a></dt>
+<dd><p>该解下游所有历史解</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list[int]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="deployer.Solution.Solution.is_valid">
+<code class="sig-name descname">is_valid</code><span class="sig-paren">(</span><em class="sig-param">p_max</em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.Solution.Solution.is_valid" title="永久链接至目标">¶</a></dt>
+<dd><p>判断该解是否合法</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数</dt>
+<dd class="field-odd"><p><strong>p_max</strong> (<em>float</em>) – 设定的最大异常率，如果该解的异常率超过该阈值，该解会被丢弃。</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="deployer.Solution.generate_solutions">
+<code class="sig-prename descclassname">deployer.Solution.</code><code class="sig-name descname">generate_solutions</code><span class="sig-paren">(</span><em class="sig-param">node</em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.Solution.generate_solutions" title="永久链接至目标">¶</a></dt>
+<dd><p>一个节点的解需要并且只需要左右子节点的解。因此，根据左右子节点的解，生成该节点的解。</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数</dt>
+<dd class="field-odd"><p><strong>node</strong> (<a class="reference internal" href="#deployer.BinaryTree.TreeNode" title="deployer.BinaryTree.TreeNode"><em>TreeNode</em></a>) – 树节点</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="deployer.Solution.merge_solutions">
+<code class="sig-prename descclassname">deployer.Solution.</code><code class="sig-name descname">merge_solutions</code><span class="sig-paren">(</span><em class="sig-param">solutions</em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.Solution.merge_solutions" title="永久链接至目标">¶</a></dt>
+<dd><p>合并解</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数</dt>
+<dd class="field-odd"><p><strong>solutions</strong> (<em>list</em><em>[</em><em>Solutions</em><em>]</em>) – 解集列表</p>
+</dd>
+<dt class="field-even">返回</dt>
+<dd class="field-even"><p>合并后的解集，其中的每个解都应满足：和其他的解无法比较大小</p>
+</dd>
+<dt class="field-odd">返回类型</dt>
+<dd class="field-odd"><p>list[Solutions]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="deployer.Solution.solve">
+<code class="sig-prename descclassname">deployer.Solution.</code><code class="sig-name descname">solve</code><span class="sig-paren">(</span><em class="sig-param">post_seq</em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.Solution.solve" title="永久链接至目标">¶</a></dt>
+<dd><p>后序遍历生成解</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数</dt>
+<dd class="field-odd"><p><strong>post_seq</strong> (<em>list</em><em>[</em><a class="reference internal" href="#deployer.BinaryTree.TreeNode" title="deployer.BinaryTree.TreeNode"><em>TreeNode</em></a><em>]</em>) – 后序遍历生成的节点序列</p>
+</dd>
+<dt class="field-even">返回</dt>
+<dd class="field-even"><p>根节点的最佳解。</p>
+</dd>
+<dt class="field-odd">返回类型</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#deployer.Solution.Solution" title="deployer.Solution.Solution">Solution</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-deployer.builders">
+<span id="deployer-builders"></span><h2>deployer.builders<a class="headerlink" href="#module-deployer.builders" title="永久链接至标题">¶</a></h2>
+<dl class="function">
+<dt id="deployer.builders.build_struct">
+<code class="sig-prename descclassname">deployer.builders.</code><code class="sig-name descname">build_struct</code><span class="sig-paren">(</span><em class="sig-param">filename</em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.builders.build_struct" title="永久链接至目标">¶</a></dt>
+<dd><p>build struct lists by file.</p>
+<p>File format:
+A single number, indicating number of next lines belong to which PDU.
+A number of lines with format: name, ar_min, ar_max.</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数</dt>
+<dd class="field-odd"><p><strong>filename</strong> (<em>str</em>) – The path of input file.</p>
+</dd>
+<dt class="field-even">返回</dt>
+<dd class="field-even"><p>A list mapping to the PDU networks.</p>
+</dd>
+<dt class="field-odd">返回类型</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="deployer.builders.build_tree">
+<code class="sig-prename descclassname">deployer.builders.</code><code class="sig-name descname">build_tree</code><span class="sig-paren">(</span><em class="sig-param">struct</em>, <em class="sig-param">layer</em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.builders.build_tree" title="永久链接至目标">¶</a></dt>
+<dd><p>From struct string to build a binary tree</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>struct</strong> (<em>list</em><em>[</em><em>list</em><em>[</em><a class="reference internal" href="#deployer.DCNode.DCNode" title="deployer.DCNode.DCNode"><em>DCNode</em></a><em>]</em><em>]</em>) – The list of generated DCNodes</p></li>
+<li><p><strong>layer</strong> (<em>int</em>) – The layer of trees</p></li>
+</ul>
+</dd>
+<dt class="field-even">返回</dt>
+<dd class="field-even"><p>The root of built tree.</p>
+</dd>
+<dt class="field-odd">返回类型</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#deployer.BinaryTree.TreeNode" title="deployer.BinaryTree.TreeNode">TreeNode</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to NetworkProbeDeployment’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; 版权所有 2020, Asuka Mao
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
