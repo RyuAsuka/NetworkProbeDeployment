@@ -1,6 +1,8 @@
 from deployer.BinaryTree import post_order
 from deployer.Solution import solve
 from deployer.builders import build_tree, build_struct
+from deployer.visualizer import create_win, draw_tree_by_midorder
+import matplotlib.pyplot as plt
 
 
 if __name__ == '__main__':
@@ -19,3 +21,20 @@ if __name__ == '__main__':
     post_seq = post_order(tree)
     for node in post_seq:
         print(f'{node.name}, {node.solutions}, {node.solutions[0].history}, {node.dpr}')
+    root, final_solution = post_seq[-1], post_seq[-1].solutions[0].history
+    print("Final solution: ", final_solution)
+    i = 0
+    for node in post_seq:
+        if not node.is_leaf:
+            if final_solution[i] == 0:
+                node.dpr = False
+            elif final_solution[i] == 1:
+                node.dpr = True
+            i += 1
+    for node in post_seq:
+        print(f'{node.name}, {node.dpr}')
+
+    # 可视化
+    _, ax, x, y = create_win(root)
+    draw_tree_by_midorder(root, x, y, ax)
+    plt.show()

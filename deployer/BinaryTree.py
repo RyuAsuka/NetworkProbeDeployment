@@ -106,6 +106,36 @@ def pre_order(tree):
     return result
 
 
+def mid_order(tree):
+    """
+    中序遍历二叉树
+
+    Parameters
+    ----------
+    tree: TreeNode
+        二叉树根节点
+
+    Returns
+    -------
+    list of TreeNode:
+        二叉树的中序遍历顺序
+    """
+    result = []
+    stack = []
+    node = tree
+
+    while node or stack:
+        while node:
+            stack.append(node)
+            node = node.left
+        if stack:
+            node = stack.pop()
+            result.append(node)
+            node = node.right
+
+    return result
+
+
 def post_order(tree):
     """
     使用栈方式后序遍历二叉树

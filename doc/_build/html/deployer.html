@@ -37,7 +37,7 @@
     
     <link rel="index" title="索引" href="genindex.html" />
     <link rel="search" title="搜索" href="search.html" />
-    <link rel="prev" title="Welcome to NetworkProbeDeployment’s documentation!" href="index.html" /> 
+    <link rel="prev" title="NetworkProbeDeployment" href="index.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -84,10 +84,18 @@
             
               <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">deployer package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#module-deployer.BinaryTree">deployer.BinaryTree</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-deployer.DCNode">deployer.DCNode</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-deployer.Solution">deployer.Solution</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-deployer.builders">deployer.builders</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-deployer.BinaryTree">deployer.BinaryTree module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-deployer.DCNGenerator">deployer.DCNGenerator module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">生成</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">文件格式</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-deployer.DCNode">deployer.DCNode module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-deployer.Solution">deployer.Solution module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-deployer.builders">deployer.builders module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-deployer.visualizer">deployer.visualizer module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-deployer">Module contents</a></li>
 </ul>
 </li>
 </ul>
@@ -157,8 +165,11 @@
             
   <div class="section" id="deployer-package">
 <h1>deployer package<a class="headerlink" href="#deployer-package" title="永久链接至标题">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="永久链接至标题">¶</a></h2>
+</div>
 <div class="section" id="module-deployer.BinaryTree">
-<span id="deployer-binarytree"></span><h2>deployer.BinaryTree<a class="headerlink" href="#module-deployer.BinaryTree" title="永久链接至标题">¶</a></h2>
+<span id="deployer-binarytree-module"></span><h2>deployer.BinaryTree module<a class="headerlink" href="#module-deployer.BinaryTree" title="永久链接至标题">¶</a></h2>
 <p>参考了 BinaryTree 库，定义了二叉树结点，树的表示方法等</p>
 <dl class="class">
 <dt id="deployer.BinaryTree.TreeNode">
@@ -243,6 +254,23 @@
 </dd></dl>
 
 <dl class="function">
+<dt id="deployer.BinaryTree.mid_order">
+<code class="sig-prename descclassname">deployer.BinaryTree.</code><code class="sig-name descname">mid_order</code><span class="sig-paren">(</span><em class="sig-param">tree</em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.BinaryTree.mid_order" title="永久链接至目标">¶</a></dt>
+<dd><p>中序遍历二叉树</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数</dt>
+<dd class="field-odd"><p><strong>tree</strong> (<a class="reference internal" href="#deployer.BinaryTree.TreeNode" title="deployer.BinaryTree.TreeNode"><em>TreeNode</em></a>) – 二叉树根节点</p>
+</dd>
+<dt class="field-even">返回</dt>
+<dd class="field-even"><p>二叉树的中序遍历顺序</p>
+</dd>
+<dt class="field-odd">返回类型</dt>
+<dd class="field-odd"><p>list of TreeNode</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
 <dt id="deployer.BinaryTree.post_order">
 <code class="sig-prename descclassname">deployer.BinaryTree.</code><code class="sig-name descname">post_order</code><span class="sig-paren">(</span><em class="sig-param">tree</em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.BinaryTree.post_order" title="永久链接至目标">¶</a></dt>
 <dd><p>使用栈方式后序遍历二叉树</p>
@@ -277,8 +305,52 @@
 </dd></dl>
 
 </div>
+<div class="section" id="module-deployer.DCNGenerator">
+<span id="deployer-dcngenerator-module"></span><h2>deployer.DCNGenerator module<a class="headerlink" href="#module-deployer.DCNGenerator" title="永久链接至标题">¶</a></h2>
+<p>数据中心网络模拟生成器</p>
+<div class="section" id="id1">
+<h3>生成<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h3>
+<p>一个文件，文件名为 {n}tenants.txt，n 为数据中心中主机的总数</p>
+</div>
+<div class="section" id="id2">
+<h3>文件格式<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h3>
+<p>假设数据中心网络如论文图 6 所示。</p>
+<img alt="imgs/fig6.png" src="imgs/fig6.png" />
+<p>如图所示，假设数据中心中包含 3 组，每组数量分别是 7 台、6 台和 7 台主机。</p>
+<p>每组数据包含 m + 1 行数据，第一个数据是该组中的主机数量 m，</p>
+<p>接下来的 m 行数据，每行包含 3 个数据，用逗号隔开。</p>
+<p>第 1 个数据为主机的名称（编号），要求即使是不同组的主机，也使用连续编号。</p>
+<p>第 2 个数据为主机的最小异常率 <code class="docutils literal notranslate"><span class="pre">ar_min</span></code>，范围为 [0, 1]</p>
+<p>第 3 个数据为主机的最大异常率 <code class="docutils literal notranslate"><span class="pre">ar_max</span></code>，范围为 [0, 1]，且必须 &gt;= 最小异常率。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>例如：有 4 台主机分 2 组，它们的编号分别是 1，2，3，4
+那么，文件中存储它们的方式为
+2
+1, ar_min1, ar_max1
+2, ar_min2, ar_max2
+2
+3, ar_min3, ar_max3
+4, ar_min4, ar_max4
+</pre></div>
+</div>
+<dl class="function">
+<dt id="deployer.DCNGenerator.data_center_network_generator">
+<code class="sig-prename descclassname">deployer.DCNGenerator.</code><code class="sig-name descname">data_center_network_generator</code><span class="sig-paren">(</span><em class="sig-param">n_groups</em>, <em class="sig-param">m_hosts</em>, <em class="sig-param">random_alarm_rate=False</em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.DCNGenerator.data_center_network_generator" title="永久链接至目标">¶</a></dt>
+<dd><p>生成数据中心网络的描述文件</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n_groups</strong> (<em>int</em>) – 数据中心网络的组数</p></li>
+<li><p><strong>m_hosts</strong> (<em>list of int</em>) – 每组中数据中心网络的个数</p></li>
+<li><p><strong>random_alarm_rate</strong> (<em>boolean</em>) – 是否随机生成异常率，若为 False，则所有的主机异常率为 0.0.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</div>
 <div class="section" id="module-deployer.DCNode">
-<span id="deployer-dcnode"></span><h2>deployer.DCNode<a class="headerlink" href="#module-deployer.DCNode" title="永久链接至标题">¶</a></h2>
+<span id="deployer-dcnode-module"></span><h2>deployer.DCNode module<a class="headerlink" href="#module-deployer.DCNode" title="永久链接至标题">¶</a></h2>
 <p>数据中心节点类</p>
 <dl class="class">
 <dt id="deployer.DCNode.DCNode">
@@ -322,7 +394,7 @@
 
 </div>
 <div class="section" id="module-deployer.Solution">
-<span id="deployer-solution"></span><h2>deployer.Solution<a class="headerlink" href="#module-deployer.Solution" title="永久链接至标题">¶</a></h2>
+<span id="deployer-solution-module"></span><h2>deployer.Solution module<a class="headerlink" href="#module-deployer.Solution" title="永久链接至标题">¶</a></h2>
 <p>定义解集类和求解函数</p>
 <dl class="class">
 <dt id="deployer.Solution.Solution">
@@ -466,20 +538,21 @@
 
 </div>
 <div class="section" id="module-deployer.builders">
-<span id="deployer-builders"></span><h2>deployer.builders<a class="headerlink" href="#module-deployer.builders" title="永久链接至标题">¶</a></h2>
+<span id="deployer-builders-module"></span><h2>deployer.builders module<a class="headerlink" href="#module-deployer.builders" title="永久链接至标题">¶</a></h2>
 <dl class="function">
 <dt id="deployer.builders.build_struct">
 <code class="sig-prename descclassname">deployer.builders.</code><code class="sig-name descname">build_struct</code><span class="sig-paren">(</span><em class="sig-param">filename</em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.builders.build_struct" title="永久链接至目标">¶</a></dt>
-<dd><p>build struct lists by file.</p>
-<p>File format:
-A single number, indicating number of next lines belong to which PDU.
-A number of lines with format: name, ar_min, ar_max.</p>
+<dd><p>通过文件生成结构</p>
+<p>文件格式：
+一共有 n 组，每组 m+1 行数据，第 1 行是该组中有多少个节点。
+接下来的 m 行，每行表示 1 个节点，用三个数表示。
+第一个数是该节点的名称（用连续的数字表示），第二个数是其最小异常率，第三个数是其最大异常率。</p>
 <dl class="field-list simple">
 <dt class="field-odd">参数</dt>
-<dd class="field-odd"><p><strong>filename</strong> (<em>str</em>) – The path of input file.</p>
+<dd class="field-odd"><p><strong>filename</strong> (<em>str</em>) – 输入文件的路径。</p>
 </dd>
 <dt class="field-even">返回</dt>
-<dd class="field-even"><p>A list mapping to the PDU networks.</p>
+<dd class="field-even"><p>一个映射到数据中心网络的列表。</p>
 </dd>
 <dt class="field-odd">返回类型</dt>
 <dd class="field-odd"><p>list</p>
@@ -490,16 +563,16 @@ A number of lines with format: name, ar_min, ar_max.</p>
 <dl class="function">
 <dt id="deployer.builders.build_tree">
 <code class="sig-prename descclassname">deployer.builders.</code><code class="sig-name descname">build_tree</code><span class="sig-paren">(</span><em class="sig-param">struct</em>, <em class="sig-param">layer</em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.builders.build_tree" title="永久链接至目标">¶</a></dt>
-<dd><p>From struct string to build a binary tree</p>
+<dd><p>从数组结构中生成二叉树</p>
 <dl class="field-list simple">
 <dt class="field-odd">参数</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>struct</strong> (<em>list</em><em>[</em><em>list</em><em>[</em><a class="reference internal" href="#deployer.DCNode.DCNode" title="deployer.DCNode.DCNode"><em>DCNode</em></a><em>]</em><em>]</em>) – The list of generated DCNodes</p></li>
-<li><p><strong>layer</strong> (<em>int</em>) – The layer of trees</p></li>
+<li><p><strong>struct</strong> (<em>Iterable</em>) – DCNode 组成的可迭代列表</p></li>
+<li><p><strong>layer</strong> (<em>int</em>) – 树的层数</p></li>
 </ul>
 </dd>
 <dt class="field-even">返回</dt>
-<dd class="field-even"><p>The root of built tree.</p>
+<dd class="field-even"><p>生成的二叉树的根节点</p>
 </dd>
 <dt class="field-odd">返回类型</dt>
 <dd class="field-odd"><p><a class="reference internal" href="#deployer.BinaryTree.TreeNode" title="deployer.BinaryTree.TreeNode">TreeNode</a></p>
@@ -507,6 +580,168 @@ A number of lines with format: name, ar_min, ar_max.</p>
 </dl>
 </dd></dl>
 
+</div>
+<div class="section" id="module-deployer.visualizer">
+<span id="deployer-visualizer-module"></span><h2>deployer.visualizer module<a class="headerlink" href="#module-deployer.visualizer" title="永久链接至标题">¶</a></h2>
+<p>树的可视化。
+要求：
+能够正确地画出二叉树
+能够根据节点的不同属性给节点上不同的颜色</p>
+<dl class="function">
+<dt id="deployer.visualizer.create_win">
+<code class="sig-prename descclassname">deployer.visualizer.</code><code class="sig-name descname">create_win</code><span class="sig-paren">(</span><em class="sig-param">root</em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.visualizer.create_win" title="永久链接至目标">¶</a></dt>
+<dd><p>创建窗口</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数</dt>
+<dd class="field-odd"><p><strong>root</strong> (<em>树的根节点</em>) – </p>
+</dd>
+<dt class="field-even">返回</dt>
+<dd class="field-even"><p>返回 figure 对象, Axes 对象，以及第一个点的坐标</p>
+</dd>
+<dt class="field-odd">返回类型</dt>
+<dd class="field-odd"><p>tuple(<cite>~matplotlib.figure.Figure</cite>, <cite>~matplotlib.pyplot.Axes</cite>, int, int)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="deployer.visualizer.draw_a_node">
+<code class="sig-prename descclassname">deployer.visualizer.</code><code class="sig-name descname">draw_a_node</code><span class="sig-paren">(</span><em class="sig-param">x</em>, <em class="sig-param">y</em>, <em class="sig-param">val</em>, <em class="sig-param">ax</em>, <em class="sig-param">color</em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.visualizer.draw_a_node" title="永久链接至目标">¶</a></dt>
+<dd><p>画一个节点</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>int</em>) – 节点的 x 坐标</p></li>
+<li><p><strong>y</strong> (<em>int</em>) – 节点的 y 坐标</p></li>
+<li><p><strong>val</strong> (<em>str</em>) – 节点的名称</p></li>
+<li><p><strong>ax</strong> (<em>matplotlib.pyplot.Axes</em>) – Axes 画布</p></li>
+<li><p><strong>color</strong> (<em>str</em>) – 颜色</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="deployer.visualizer.draw_an_edge">
+<code class="sig-prename descclassname">deployer.visualizer.</code><code class="sig-name descname">draw_an_edge</code><span class="sig-paren">(</span><em class="sig-param">x1</em>, <em class="sig-param">x2</em>, <em class="sig-param">y1</em>, <em class="sig-param">y2</em>, <em class="sig-param">r=1</em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.visualizer.draw_an_edge" title="永久链接至目标">¶</a></dt>
+<dd><p>绘制一条边</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x1</strong> (<em>int</em>) – 第一个点的第一个坐标</p></li>
+<li><p><strong>x2</strong> (<em>int</em>) – 第一个点的第二个坐标</p></li>
+<li><p><strong>y1</strong> (<em>int</em>) – 第二个点的第一个坐标</p></li>
+<li><p><strong>y2</strong> (<em>int</em>) – 第二个点的第二个坐标</p></li>
+<li><p><strong>r</strong> (<em>int</em>) – 半径</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="deployer.visualizer.draw_tree_by_midorder">
+<code class="sig-prename descclassname">deployer.visualizer.</code><code class="sig-name descname">draw_tree_by_midorder</code><span class="sig-paren">(</span><em class="sig-param">root</em>, <em class="sig-param">x</em>, <em class="sig-param">y</em>, <em class="sig-param">ax</em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.visualizer.draw_tree_by_midorder" title="永久链接至目标">¶</a></dt>
+<dd><p>通过中序遍历打印二叉树</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>root</strong> (<a class="reference internal" href="#deployer.BinaryTree.TreeNode" title="deployer.BinaryTree.TreeNode"><em>TreeNode</em></a>) – 树的根节点</p></li>
+<li><p><strong>x</strong> (<em>int</em>) – 第一个点的 x 坐标</p></li>
+<li><p><strong>y</strong> (<em>int</em>) – 第一个点的 y 坐标</p></li>
+<li><p><strong>ax</strong> (<cite>~matplotlib.pyplot.Axes</cite>) – Axes 对象</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="deployer.visualizer.get_height">
+<code class="sig-prename descclassname">deployer.visualizer.</code><code class="sig-name descname">get_height</code><span class="sig-paren">(</span><em class="sig-param">root</em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.visualizer.get_height" title="永久链接至目标">¶</a></dt>
+<dd><p>获得树的高度</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数</dt>
+<dd class="field-odd"><p><strong>root</strong> (<a class="reference internal" href="#deployer.BinaryTree.TreeNode" title="deployer.BinaryTree.TreeNode"><em>TreeNode</em></a>) – 树的根节点</p>
+</dd>
+<dt class="field-even">返回</dt>
+<dd class="field-even"><p>树的高度值</p>
+</dd>
+<dt class="field-odd">返回类型</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="deployer.visualizer.get_left_width">
+<code class="sig-prename descclassname">deployer.visualizer.</code><code class="sig-name descname">get_left_width</code><span class="sig-paren">(</span><em class="sig-param">root</em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.visualizer.get_left_width" title="永久链接至目标">¶</a></dt>
+<dd><p>获得根左边宽度</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数</dt>
+<dd class="field-odd"><p><strong>root</strong> (<a class="reference internal" href="#deployer.BinaryTree.TreeNode" title="deployer.BinaryTree.TreeNode"><em>TreeNode</em></a>) – 树的根节点</p>
+</dd>
+<dt class="field-even">返回</dt>
+<dd class="field-even"><p>根左边的宽度值</p>
+</dd>
+<dt class="field-odd">返回类型</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="deployer.visualizer.get_right_width">
+<code class="sig-prename descclassname">deployer.visualizer.</code><code class="sig-name descname">get_right_width</code><span class="sig-paren">(</span><em class="sig-param">root</em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.visualizer.get_right_width" title="永久链接至目标">¶</a></dt>
+<dd><p>获取根右边的宽度</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数</dt>
+<dd class="field-odd"><p><strong>root</strong> (<a class="reference internal" href="#deployer.BinaryTree.TreeNode" title="deployer.BinaryTree.TreeNode"><em>TreeNode</em></a>) – 树的根节点</p>
+</dd>
+<dt class="field-even">返回</dt>
+<dd class="field-even"><p>根右边的宽度值</p>
+</dd>
+<dt class="field-odd">返回类型</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="deployer.visualizer.get_width">
+<code class="sig-prename descclassname">deployer.visualizer.</code><code class="sig-name descname">get_width</code><span class="sig-paren">(</span><em class="sig-param">root</em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.visualizer.get_width" title="永久链接至目标">¶</a></dt>
+<dd><p>获得树的宽度</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数</dt>
+<dd class="field-odd"><p><strong>root</strong> (<a class="reference internal" href="#deployer.BinaryTree.TreeNode" title="deployer.BinaryTree.TreeNode"><em>TreeNode</em></a>) – 树的根节点</p>
+</dd>
+<dt class="field-even">返回</dt>
+<dd class="field-even"><p>宽度值</p>
+</dd>
+<dt class="field-odd">返回类型</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="deployer.visualizer.get_width_and_height">
+<code class="sig-prename descclassname">deployer.visualizer.</code><code class="sig-name descname">get_width_and_height</code><span class="sig-paren">(</span><em class="sig-param">root</em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.visualizer.get_width_and_height" title="永久链接至目标">¶</a></dt>
+<dd><p>调用 get_width 函数和 get_height 函数获得树的宽度和高度</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数</dt>
+<dd class="field-odd"><p><strong>root</strong> (<a class="reference internal" href="#deployer.BinaryTree.TreeNode" title="deployer.BinaryTree.TreeNode"><em>TreeNode</em></a>) – 树的根节点</p>
+</dd>
+<dt class="field-even">返回</dt>
+<dd class="field-even"><p>返回树的宽度和高度</p>
+</dd>
+<dt class="field-odd">返回类型</dt>
+<dd class="field-odd"><p>tuple(int, int)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-deployer">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-deployer" title="永久链接至标题">¶</a></h2>
 </div>
 </div>
 
@@ -519,7 +754,7 @@ A number of lines with format: name, ar_min, ar_max.</p>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
       
-        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to NetworkProbeDeployment’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="index.html" class="btn btn-neutral float-left" title="NetworkProbeDeployment" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

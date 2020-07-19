@@ -1,7 +1,10 @@
 deployer package
 ================
 
-deployer.BinaryTree
+Submodules
+----------
+
+deployer.BinaryTree module
 --------------------------
 
 .. automodule:: deployer.BinaryTree
@@ -9,7 +12,15 @@ deployer.BinaryTree
    :undoc-members:
    :show-inheritance:
 
-deployer.DCNode
+deployer.DCNGenerator module
+----------------------------
+
+.. automodule:: deployer.DCNGenerator
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+deployer.DCNode module
 ----------------------
 
 .. automodule:: deployer.DCNode
@@ -17,7 +28,7 @@ deployer.DCNode
    :undoc-members:
    :show-inheritance:
 
-deployer.Solution
+deployer.Solution module
 ------------------------
 
 .. automodule:: deployer.Solution
@@ -25,7 +36,7 @@ deployer.Solution
    :undoc-members:
    :show-inheritance:
 
-deployer.builders
+deployer.builders module
 ------------------------
 
 .. automodule:: deployer.builders
@@ -33,3 +44,19 @@ deployer.builders
    :undoc-members:
    :show-inheritance:
 
+deployer.visualizer module
+--------------------------
+
+.. automodule:: deployer.visualizer
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: deployer
+   :members:
+   :undoc-members:
+   :show-inheritance:
