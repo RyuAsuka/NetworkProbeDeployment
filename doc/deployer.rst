@@ -1,8 +1,13 @@
 deployer package
 ================
 
-Submodules
-----------
+deployer.AnomalyRate module
+---------------------------
+
+.. automodule:: deployer.AnomalyRate
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
 deployer.BinaryTree module
 --------------------------
@@ -52,11 +57,3 @@ deployer.visualizer module
    :undoc-members:
    :show-inheritance:
 
-
-Module contents
----------------
-
-.. automodule:: deployer
-   :members:
-   :undoc-members:
-   :show-inheritance:

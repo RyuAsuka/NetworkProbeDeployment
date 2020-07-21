@@ -31,6 +31,7 @@
         <script src="_static/doctools.js"></script>
         <script src="_static/language_data.js"></script>
         <script src="_static/translations.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -85,10 +86,18 @@
               <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">deployer package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-deployer.AnomalyRate">deployer.AnomalyRate module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">异常的产生</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id2">数据集格式</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">异常率的计算</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#module-deployer.BinaryTree">deployer.BinaryTree module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-deployer.DCNGenerator">deployer.DCNGenerator module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id1">生成</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id2">文件格式</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">生成</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">文件格式</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#module-deployer.DCNode">deployer.DCNode module</a></li>
@@ -168,15 +177,102 @@
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="永久链接至标题">¶</a></h2>
 </div>
+<div class="section" id="module-deployer.AnomalyRate">
+<span id="deployer-anomalyrate-module"></span><h2>deployer.AnomalyRate module<a class="headerlink" href="#module-deployer.AnomalyRate" title="永久链接至标题">¶</a></h2>
+<p>从数据矩阵中读取异常率，并计算最小/最大异常率。</p>
+<div class="section" id="id1">
+<h3>异常的产生<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h3>
+<p>根据马氏距离和 Minimum Covariace Determinant （最小协方差行列式）计算数据集的异常。
+该算法由 <code class="docutils literal notranslate"><span class="pre">sklearn.covariance.MinCovDet</span></code> 实现。</p>
+<div class="section" id="id2">
+<h4>数据集格式<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h4>
+<p>每个数据中心租户的在 <span class="math notranslate nohighlight">\(d\)</span> 天内的 <span class="math notranslate nohighlight">\(n\)</span> 个时段所产生的数据组成一个 <span class="math notranslate nohighlight">\(d         imes n\)</span> 的矩阵。:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[[</span><span class="n">r11</span><span class="p">,</span>     <span class="n">r12</span><span class="p">,</span>     <span class="o">...</span><span class="p">,</span>     <span class="n">r1n</span><span class="p">],</span> <span class="o">-&gt;</span> <span class="n">第一天的数据</span>
+ <span class="p">[</span><span class="n">r21</span><span class="p">,</span>     <span class="n">r22</span><span class="p">,</span>     <span class="o">...</span><span class="p">,</span>     <span class="n">r2n</span><span class="p">],</span> <span class="o">-&gt;</span> <span class="n">第二天的数据</span>
+ <span class="o">...</span>
+ <span class="p">[</span><span class="n">rd1</span><span class="p">,</span>     <span class="n">rd2</span><span class="p">,</span>     <span class="o">...</span><span class="p">,</span>     <span class="n">rdn</span><span class="p">]]</span> <span class="o">-&gt;</span> <span class="n">第</span> <span class="n">d</span> <span class="n">天的数据</span>
+ <span class="o">|</span>          <span class="o">|</span>                <span class="o">|</span>
+ <span class="n">V</span>          <span class="n">V</span>                <span class="n">V</span>
+ <span class="n">第一个时段</span> <span class="n">第二个时段</span>    <span class="n">第n个时段</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="id3">
+<h3>异常率的计算<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h3>
+<p>根据公式 <span class="math notranslate nohighlight">\(AR_w(s) = \sum_{t=s}^{s+w-1} I(t)/w\)</span>，异常率即为在大小为 <span class="math notranslate nohighlight">\(w\)</span> 的窗口范围内的平均异常数。</p>
+<p>通过不断移动窗口，计算每个窗口内的异常率，最后找出该异常率数组中的最大值和最小值。</p>
+<dl class="py function">
+<dt id="deployer.AnomalyRate.get_anomaly">
+<code class="sig-prename descclassname">deployer.AnomalyRate.</code><code class="sig-name descname">get_anomaly</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data_array</span></em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.AnomalyRate.get_anomaly" title="永久链接至目标">¶</a></dt>
+<dd><p>根据数据矩阵，获取其异常数列表。</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数</dt>
+<dd class="field-odd"><p><strong>data_array</strong> (<em>numpy.ndarray</em>) – 一个形状为 (d, n) 的矩阵，其中 d 为数据的天数，n 为数据的时段数。表示输入数据。</p>
+</dd>
+<dt class="field-even">返回</dt>
+<dd class="field-even"><p>一个形状为 (n*d, 1) 的向量，表示整个数据集中有多少个异常点。其中，异常点标记为 1，非异常点标记为0。</p>
+</dd>
+<dt class="field-odd">返回类型</dt>
+<dd class="field-odd"><p>List</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="deployer.AnomalyRate.get_anomaly_rate">
+<code class="sig-prename descclassname">deployer.AnomalyRate.</code><code class="sig-name descname">get_anomaly_rate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">anomaly_vec</span></em>, <em class="sig-param"><span class="n">window_size</span></em>, <em class="sig-param"><span class="n">start_pos</span></em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.AnomalyRate.get_anomaly_rate" title="永久链接至目标">¶</a></dt>
+<dd><p>AR函数的实现。</p>
+<p>通过遍历 <code class="docutils literal notranslate"><span class="pre">anomaly_vec</span></code> 数组，根据窗口大小 <code class="docutils literal notranslate"><span class="pre">window_size</span></code> 和起始位置 <code class="docutils literal notranslate"><span class="pre">start_pos</span></code> 计算该条件下的异常率。</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>anomaly_vec</strong> (<em>list</em>) – 根据 <code class="docutils literal notranslate"><span class="pre">get_anomaly</span></code> 函数计算得到的异常数列表。</p></li>
+<li><p><strong>window_size</strong> (<em>int</em>) – 窗口大小</p></li>
+<li><p><strong>start_pos</strong> (<em>int</em>) – 起始位置，范围是 <code class="docutils literal notranslate"><span class="pre">[1,</span> <span class="pre">len(anomaly_vec)-window_size+1]</span></code>. 计算时应注意从 1 开始计算。
+因此数组中的 <code class="docutils literal notranslate"><span class="pre">start_pos</span></code> 要减一。</p></li>
+</ul>
+</dd>
+<dt class="field-even">返回</dt>
+<dd class="field-even"><p>该窗口和起始位置条件下的异常率。</p>
+</dd>
+<dt class="field-odd">返回类型</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="deployer.AnomalyRate.get_max_min_anomaly_rate">
+<code class="sig-prename descclassname">deployer.AnomalyRate.</code><code class="sig-name descname">get_max_min_anomaly_rate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">anomaly_vec</span></em>, <em class="sig-param"><span class="n">window_size</span></em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.AnomalyRate.get_max_min_anomaly_rate" title="永久链接至目标">¶</a></dt>
+<dd><p>求最大和最小异常率。</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>anomaly_vec</strong> (<em>List</em>) – 根据 <code class="docutils literal notranslate"><span class="pre">get_anomaly</span></code> 函数计算的到的异常数列表。</p></li>
+<li><p><strong>window_size</strong> (<em>int</em>) – 窗口大小</p></li>
+</ul>
+</dd>
+<dt class="field-even">返回</dt>
+<dd class="field-even"><p>分别表示最小异常率和最大异常率。</p>
+</dd>
+<dt class="field-odd">返回类型</dt>
+<dd class="field-odd"><p>tuple(float, float)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</div>
 <div class="section" id="module-deployer.BinaryTree">
 <span id="deployer-binarytree-module"></span><h2>deployer.BinaryTree module<a class="headerlink" href="#module-deployer.BinaryTree" title="永久链接至标题">¶</a></h2>
 <p>参考了 BinaryTree 库，定义了二叉树结点，树的表示方法等</p>
-<dl class="class">
+<dl class="py class">
 <dt id="deployer.BinaryTree.TreeNode">
-<em class="property">class </em><code class="sig-prename descclassname">deployer.BinaryTree.</code><code class="sig-name descname">TreeNode</code><span class="sig-paren">(</span><em class="sig-param">name</em>, <em class="sig-param">dpr=False</em>, <em class="sig-param">solutions=None</em>, <em class="sig-param">left=None</em>, <em class="sig-param">right=None</em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.BinaryTree.TreeNode" title="永久链接至目标">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">deployer.BinaryTree.</code><code class="sig-name descname">TreeNode</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em>, <em class="sig-param"><span class="n">dpr</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">solutions</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">left</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">right</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.BinaryTree.TreeNode" title="永久链接至目标">¶</a></dt>
 <dd><p>基类：<code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>二叉树节点</p>
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="deployer.BinaryTree.TreeNode.name">
 <code class="sig-name descname">name</code><a class="headerlink" href="#deployer.BinaryTree.TreeNode.name" title="永久链接至目标">¶</a></dt>
 <dd><p>该节点的名称</p>
@@ -187,7 +283,7 @@
 </dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="deployer.BinaryTree.TreeNode.dpr">
 <code class="sig-name descname">dpr</code><a class="headerlink" href="#deployer.BinaryTree.TreeNode.dpr" title="永久链接至目标">¶</a></dt>
 <dd><p>是否在该节点上部署 DPR</p>
@@ -198,7 +294,7 @@
 </dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="deployer.BinaryTree.TreeNode.solutions">
 <code class="sig-name descname">solutions</code><a class="headerlink" href="#deployer.BinaryTree.TreeNode.solutions" title="永久链接至目标">¶</a></dt>
 <dd><p>该节点上的解集列表</p>
@@ -209,7 +305,7 @@
 </dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="deployer.BinaryTree.TreeNode.left">
 <code class="sig-name descname">left</code><a class="headerlink" href="#deployer.BinaryTree.TreeNode.left" title="永久链接至目标">¶</a></dt>
 <dd><p>该节点的左子节点</p>
@@ -220,7 +316,7 @@
 </dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="deployer.BinaryTree.TreeNode.right">
 <code class="sig-name descname">right</code><a class="headerlink" href="#deployer.BinaryTree.TreeNode.right" title="永久链接至目标">¶</a></dt>
 <dd><p>该节点的右子节点</p>
@@ -231,7 +327,7 @@
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="deployer.BinaryTree.TreeNode.is_leaf">
 <em class="property">property </em><code class="sig-name descname">is_leaf</code><a class="headerlink" href="#deployer.BinaryTree.TreeNode.is_leaf" title="永久链接至目标">¶</a></dt>
 <dd><p>指示该节点是否是叶子节点（即左右子节点均为空的节点）</p>
@@ -245,7 +341,7 @@
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="deployer.BinaryTree.TreeNode.pprint">
 <code class="sig-name descname">pprint</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#deployer.BinaryTree.TreeNode.pprint" title="永久链接至目标">¶</a></dt>
 <dd><p>打印二叉树</p>
@@ -253,9 +349,9 @@
 
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="deployer.BinaryTree.mid_order">
-<code class="sig-prename descclassname">deployer.BinaryTree.</code><code class="sig-name descname">mid_order</code><span class="sig-paren">(</span><em class="sig-param">tree</em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.BinaryTree.mid_order" title="永久链接至目标">¶</a></dt>
+<code class="sig-prename descclassname">deployer.BinaryTree.</code><code class="sig-name descname">mid_order</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">tree</span></em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.BinaryTree.mid_order" title="永久链接至目标">¶</a></dt>
 <dd><p>中序遍历二叉树</p>
 <dl class="field-list simple">
 <dt class="field-odd">参数</dt>
@@ -270,9 +366,9 @@
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="deployer.BinaryTree.post_order">
-<code class="sig-prename descclassname">deployer.BinaryTree.</code><code class="sig-name descname">post_order</code><span class="sig-paren">(</span><em class="sig-param">tree</em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.BinaryTree.post_order" title="永久链接至目标">¶</a></dt>
+<code class="sig-prename descclassname">deployer.BinaryTree.</code><code class="sig-name descname">post_order</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">tree</span></em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.BinaryTree.post_order" title="永久链接至目标">¶</a></dt>
 <dd><p>使用栈方式后序遍历二叉树</p>
 <dl class="field-list simple">
 <dt class="field-odd">参数</dt>
@@ -287,9 +383,9 @@
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="deployer.BinaryTree.pre_order">
-<code class="sig-prename descclassname">deployer.BinaryTree.</code><code class="sig-name descname">pre_order</code><span class="sig-paren">(</span><em class="sig-param">tree</em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.BinaryTree.pre_order" title="永久链接至目标">¶</a></dt>
+<code class="sig-prename descclassname">deployer.BinaryTree.</code><code class="sig-name descname">pre_order</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">tree</span></em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.BinaryTree.pre_order" title="永久链接至目标">¶</a></dt>
 <dd><p>使用栈方式前序遍历二叉树</p>
 <dl class="field-list simple">
 <dt class="field-odd">参数</dt>
@@ -308,12 +404,12 @@
 <div class="section" id="module-deployer.DCNGenerator">
 <span id="deployer-dcngenerator-module"></span><h2>deployer.DCNGenerator module<a class="headerlink" href="#module-deployer.DCNGenerator" title="永久链接至标题">¶</a></h2>
 <p>数据中心网络模拟生成器</p>
-<div class="section" id="id1">
-<h3>生成<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id4">
+<h3>生成<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h3>
 <p>一个文件，文件名为 {n}tenants.txt，n 为数据中心中主机的总数</p>
 </div>
-<div class="section" id="id2">
-<h3>文件格式<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id5">
+<h3>文件格式<a class="headerlink" href="#id5" title="永久链接至标题">¶</a></h3>
 <p>假设数据中心网络如论文图 6 所示。</p>
 <img alt="imgs/fig6.png" src="imgs/fig6.png" />
 <p>如图所示，假设数据中心中包含 3 组，每组数量分别是 7 台、6 台和 7 台主机。</p>
@@ -332,9 +428,9 @@
 4, ar_min4, ar_max4
 </pre></div>
 </div>
-<dl class="function">
+<dl class="py function">
 <dt id="deployer.DCNGenerator.data_center_network_generator">
-<code class="sig-prename descclassname">deployer.DCNGenerator.</code><code class="sig-name descname">data_center_network_generator</code><span class="sig-paren">(</span><em class="sig-param">n_groups</em>, <em class="sig-param">m_hosts</em>, <em class="sig-param">random_alarm_rate=False</em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.DCNGenerator.data_center_network_generator" title="永久链接至目标">¶</a></dt>
+<code class="sig-prename descclassname">deployer.DCNGenerator.</code><code class="sig-name descname">data_center_network_generator</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">n_groups</span></em>, <em class="sig-param"><span class="n">m_hosts</span></em>, <em class="sig-param"><span class="n">random_alarm_rate</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.DCNGenerator.data_center_network_generator" title="永久链接至目标">¶</a></dt>
 <dd><p>生成数据中心网络的描述文件</p>
 <dl class="field-list simple">
 <dt class="field-odd">参数</dt>
@@ -352,12 +448,12 @@
 <div class="section" id="module-deployer.DCNode">
 <span id="deployer-dcnode-module"></span><h2>deployer.DCNode module<a class="headerlink" href="#module-deployer.DCNode" title="永久链接至标题">¶</a></h2>
 <p>数据中心节点类</p>
-<dl class="class">
+<dl class="py class">
 <dt id="deployer.DCNode.DCNode">
-<em class="property">class </em><code class="sig-prename descclassname">deployer.DCNode.</code><code class="sig-name descname">DCNode</code><span class="sig-paren">(</span><em class="sig-param">name</em>, <em class="sig-param">ar_min=0</em>, <em class="sig-param">ar_max=0</em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.DCNode.DCNode" title="永久链接至目标">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">deployer.DCNode.</code><code class="sig-name descname">DCNode</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em>, <em class="sig-param"><span class="n">ar_min</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">ar_max</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.DCNode.DCNode" title="永久链接至目标">¶</a></dt>
 <dd><p>基类：<code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>定义数据中心节点类。包含节点的名称，最小/最大异常率。其中，最小异常率 &lt;= 最大异常率。</p>
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="deployer.DCNode.DCNode.name">
 <code class="sig-name descname">name</code><a class="headerlink" href="#deployer.DCNode.DCNode.name" title="永久链接至目标">¶</a></dt>
 <dd><p>该节点的名称</p>
@@ -368,7 +464,7 @@
 </dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="deployer.DCNode.DCNode.ar_min">
 <code class="sig-name descname">ar_min</code><a class="headerlink" href="#deployer.DCNode.DCNode.ar_min" title="永久链接至目标">¶</a></dt>
 <dd><p>范围为 [0, 1]，该节点的最小异常率</p>
@@ -379,7 +475,7 @@
 </dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="deployer.DCNode.DCNode.ar_max">
 <code class="sig-name descname">ar_max</code><a class="headerlink" href="#deployer.DCNode.DCNode.ar_max" title="永久链接至目标">¶</a></dt>
 <dd><p>范围为 [0, 1]，该节点的最大异常率</p>
@@ -396,12 +492,12 @@
 <div class="section" id="module-deployer.Solution">
 <span id="deployer-solution-module"></span><h2>deployer.Solution module<a class="headerlink" href="#module-deployer.Solution" title="永久链接至标题">¶</a></h2>
 <p>定义解集类和求解函数</p>
-<dl class="class">
+<dl class="py class">
 <dt id="deployer.Solution.Solution">
-<em class="property">class </em><code class="sig-prename descclassname">deployer.Solution.</code><code class="sig-name descname">Solution</code><span class="sig-paren">(</span><em class="sig-param">name</em>, <em class="sig-param">cI=0</em>, <em class="sig-param">cM=0</em>, <em class="sig-param">pl=0</em>, <em class="sig-param">pu=0</em>, <em class="sig-param">dpr=False</em>, <em class="sig-param">history=None</em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.Solution.Solution" title="永久链接至目标">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">deployer.Solution.</code><code class="sig-name descname">Solution</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em>, <em class="sig-param"><span class="n">cI</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">cM</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">pl</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">pu</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">dpr</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">history</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.Solution.Solution" title="永久链接至目标">¶</a></dt>
 <dd><p>基类：<code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>定义一个二叉树节点的 DPR 插入解</p>
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="deployer.Solution.Solution.name">
 <code class="sig-name descname">name</code><a class="headerlink" href="#deployer.Solution.Solution.name" title="永久链接至目标">¶</a></dt>
 <dd><p>该解的名称，应和该解所在节点的名称一致。</p>
@@ -412,7 +508,7 @@
 </dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="deployer.Solution.Solution.cI">
 <code class="sig-name descname">cI</code><a class="headerlink" href="#deployer.Solution.Solution.cI" title="永久链接至目标">¶</a></dt>
 <dd><p>该解中，插入 DPR 的个数</p>
@@ -423,7 +519,7 @@
 </dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="deployer.Solution.Solution.cM">
 <code class="sig-name descname">cM</code><a class="headerlink" href="#deployer.Solution.Solution.cM" title="永久链接至目标">¶</a></dt>
 <dd><p>该解中，该节点下游未插入 DPR 的个数</p>
@@ -434,7 +530,7 @@
 </dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="deployer.Solution.Solution.pl">
 <code class="sig-name descname">pl</code><a class="headerlink" href="#deployer.Solution.Solution.pl" title="永久链接至目标">¶</a></dt>
 <dd><p>该解中的异常率下限（&gt;= 0）</p>
@@ -445,7 +541,7 @@
 </dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="deployer.Solution.Solution.pu">
 <code class="sig-name descname">pu</code><a class="headerlink" href="#deployer.Solution.Solution.pu" title="永久链接至目标">¶</a></dt>
 <dd><p>该解中的异常率上限 (&lt;= 1)</p>
@@ -456,7 +552,7 @@
 </dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="deployer.Solution.Solution.dpr">
 <code class="sig-name descname">dpr</code><a class="headerlink" href="#deployer.Solution.Solution.dpr" title="永久链接至目标">¶</a></dt>
 <dd><p>该解中，该节点是否插入 DPR</p>
@@ -467,7 +563,7 @@
 </dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="deployer.Solution.Solution.history">
 <code class="sig-name descname">history</code><a class="headerlink" href="#deployer.Solution.Solution.history" title="永久链接至目标">¶</a></dt>
 <dd><p>该解下游所有历史解</p>
@@ -478,9 +574,9 @@
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="deployer.Solution.Solution.is_valid">
-<code class="sig-name descname">is_valid</code><span class="sig-paren">(</span><em class="sig-param">p_max</em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.Solution.Solution.is_valid" title="永久链接至目标">¶</a></dt>
+<code class="sig-name descname">is_valid</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">p_max</span></em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.Solution.Solution.is_valid" title="永久链接至目标">¶</a></dt>
 <dd><p>判断该解是否合法</p>
 <dl class="field-list simple">
 <dt class="field-odd">参数</dt>
@@ -491,9 +587,9 @@
 
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="deployer.Solution.generate_solutions">
-<code class="sig-prename descclassname">deployer.Solution.</code><code class="sig-name descname">generate_solutions</code><span class="sig-paren">(</span><em class="sig-param">node</em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.Solution.generate_solutions" title="永久链接至目标">¶</a></dt>
+<code class="sig-prename descclassname">deployer.Solution.</code><code class="sig-name descname">generate_solutions</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node</span></em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.Solution.generate_solutions" title="永久链接至目标">¶</a></dt>
 <dd><p>一个节点的解需要并且只需要左右子节点的解。因此，根据左右子节点的解，生成该节点的解。</p>
 <dl class="field-list simple">
 <dt class="field-odd">参数</dt>
@@ -502,9 +598,9 @@
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="deployer.Solution.merge_solutions">
-<code class="sig-prename descclassname">deployer.Solution.</code><code class="sig-name descname">merge_solutions</code><span class="sig-paren">(</span><em class="sig-param">solutions</em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.Solution.merge_solutions" title="永久链接至目标">¶</a></dt>
+<code class="sig-prename descclassname">deployer.Solution.</code><code class="sig-name descname">merge_solutions</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">solutions</span></em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.Solution.merge_solutions" title="永久链接至目标">¶</a></dt>
 <dd><p>合并解</p>
 <dl class="field-list simple">
 <dt class="field-odd">参数</dt>
@@ -519,9 +615,9 @@
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="deployer.Solution.solve">
-<code class="sig-prename descclassname">deployer.Solution.</code><code class="sig-name descname">solve</code><span class="sig-paren">(</span><em class="sig-param">post_seq</em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.Solution.solve" title="永久链接至目标">¶</a></dt>
+<code class="sig-prename descclassname">deployer.Solution.</code><code class="sig-name descname">solve</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">post_seq</span></em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.Solution.solve" title="永久链接至目标">¶</a></dt>
 <dd><p>后序遍历生成解</p>
 <dl class="field-list simple">
 <dt class="field-odd">参数</dt>
@@ -539,9 +635,9 @@
 </div>
 <div class="section" id="module-deployer.builders">
 <span id="deployer-builders-module"></span><h2>deployer.builders module<a class="headerlink" href="#module-deployer.builders" title="永久链接至标题">¶</a></h2>
-<dl class="function">
+<dl class="py function">
 <dt id="deployer.builders.build_struct">
-<code class="sig-prename descclassname">deployer.builders.</code><code class="sig-name descname">build_struct</code><span class="sig-paren">(</span><em class="sig-param">filename</em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.builders.build_struct" title="永久链接至目标">¶</a></dt>
+<code class="sig-prename descclassname">deployer.builders.</code><code class="sig-name descname">build_struct</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.builders.build_struct" title="永久链接至目标">¶</a></dt>
 <dd><p>通过文件生成结构</p>
 <p>文件格式：
 一共有 n 组，每组 m+1 行数据，第 1 行是该组中有多少个节点。
@@ -560,9 +656,9 @@
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="deployer.builders.build_tree">
-<code class="sig-prename descclassname">deployer.builders.</code><code class="sig-name descname">build_tree</code><span class="sig-paren">(</span><em class="sig-param">struct</em>, <em class="sig-param">layer</em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.builders.build_tree" title="永久链接至目标">¶</a></dt>
+<code class="sig-prename descclassname">deployer.builders.</code><code class="sig-name descname">build_tree</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">struct</span></em>, <em class="sig-param"><span class="n">layer</span></em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.builders.build_tree" title="永久链接至目标">¶</a></dt>
 <dd><p>从数组结构中生成二叉树</p>
 <dl class="field-list simple">
 <dt class="field-odd">参数</dt>
@@ -587,9 +683,9 @@
 要求：
 能够正确地画出二叉树
 能够根据节点的不同属性给节点上不同的颜色</p>
-<dl class="function">
+<dl class="py function">
 <dt id="deployer.visualizer.create_win">
-<code class="sig-prename descclassname">deployer.visualizer.</code><code class="sig-name descname">create_win</code><span class="sig-paren">(</span><em class="sig-param">root</em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.visualizer.create_win" title="永久链接至目标">¶</a></dt>
+<code class="sig-prename descclassname">deployer.visualizer.</code><code class="sig-name descname">create_win</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">root</span></em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.visualizer.create_win" title="永久链接至目标">¶</a></dt>
 <dd><p>创建窗口</p>
 <dl class="field-list simple">
 <dt class="field-odd">参数</dt>
@@ -604,9 +700,9 @@
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="deployer.visualizer.draw_a_node">
-<code class="sig-prename descclassname">deployer.visualizer.</code><code class="sig-name descname">draw_a_node</code><span class="sig-paren">(</span><em class="sig-param">x</em>, <em class="sig-param">y</em>, <em class="sig-param">val</em>, <em class="sig-param">ax</em>, <em class="sig-param">color</em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.visualizer.draw_a_node" title="永久链接至目标">¶</a></dt>
+<code class="sig-prename descclassname">deployer.visualizer.</code><code class="sig-name descname">draw_a_node</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">val</span></em>, <em class="sig-param"><span class="n">ax</span></em>, <em class="sig-param"><span class="n">color</span></em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.visualizer.draw_a_node" title="永久链接至目标">¶</a></dt>
 <dd><p>画一个节点</p>
 <dl class="field-list simple">
 <dt class="field-odd">参数</dt>
@@ -621,9 +717,9 @@
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="deployer.visualizer.draw_an_edge">
-<code class="sig-prename descclassname">deployer.visualizer.</code><code class="sig-name descname">draw_an_edge</code><span class="sig-paren">(</span><em class="sig-param">x1</em>, <em class="sig-param">x2</em>, <em class="sig-param">y1</em>, <em class="sig-param">y2</em>, <em class="sig-param">r=1</em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.visualizer.draw_an_edge" title="永久链接至目标">¶</a></dt>
+<code class="sig-prename descclassname">deployer.visualizer.</code><code class="sig-name descname">draw_an_edge</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x1</span></em>, <em class="sig-param"><span class="n">x2</span></em>, <em class="sig-param"><span class="n">y1</span></em>, <em class="sig-param"><span class="n">y2</span></em>, <em class="sig-param"><span class="n">r</span><span class="o">=</span><span class="default_value">1</span></em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.visualizer.draw_an_edge" title="永久链接至目标">¶</a></dt>
 <dd><p>绘制一条边</p>
 <dl class="field-list simple">
 <dt class="field-odd">参数</dt>
@@ -638,9 +734,9 @@
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="deployer.visualizer.draw_tree_by_midorder">
-<code class="sig-prename descclassname">deployer.visualizer.</code><code class="sig-name descname">draw_tree_by_midorder</code><span class="sig-paren">(</span><em class="sig-param">root</em>, <em class="sig-param">x</em>, <em class="sig-param">y</em>, <em class="sig-param">ax</em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.visualizer.draw_tree_by_midorder" title="永久链接至目标">¶</a></dt>
+<code class="sig-prename descclassname">deployer.visualizer.</code><code class="sig-name descname">draw_tree_by_midorder</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">root</span></em>, <em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">ax</span></em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.visualizer.draw_tree_by_midorder" title="永久链接至目标">¶</a></dt>
 <dd><p>通过中序遍历打印二叉树</p>
 <dl class="field-list simple">
 <dt class="field-odd">参数</dt>
@@ -654,9 +750,9 @@
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="deployer.visualizer.get_height">
-<code class="sig-prename descclassname">deployer.visualizer.</code><code class="sig-name descname">get_height</code><span class="sig-paren">(</span><em class="sig-param">root</em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.visualizer.get_height" title="永久链接至目标">¶</a></dt>
+<code class="sig-prename descclassname">deployer.visualizer.</code><code class="sig-name descname">get_height</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">root</span></em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.visualizer.get_height" title="永久链接至目标">¶</a></dt>
 <dd><p>获得树的高度</p>
 <dl class="field-list simple">
 <dt class="field-odd">参数</dt>
@@ -671,9 +767,9 @@
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="deployer.visualizer.get_left_width">
-<code class="sig-prename descclassname">deployer.visualizer.</code><code class="sig-name descname">get_left_width</code><span class="sig-paren">(</span><em class="sig-param">root</em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.visualizer.get_left_width" title="永久链接至目标">¶</a></dt>
+<code class="sig-prename descclassname">deployer.visualizer.</code><code class="sig-name descname">get_left_width</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">root</span></em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.visualizer.get_left_width" title="永久链接至目标">¶</a></dt>
 <dd><p>获得根左边宽度</p>
 <dl class="field-list simple">
 <dt class="field-odd">参数</dt>
@@ -688,9 +784,9 @@
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="deployer.visualizer.get_right_width">
-<code class="sig-prename descclassname">deployer.visualizer.</code><code class="sig-name descname">get_right_width</code><span class="sig-paren">(</span><em class="sig-param">root</em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.visualizer.get_right_width" title="永久链接至目标">¶</a></dt>
+<code class="sig-prename descclassname">deployer.visualizer.</code><code class="sig-name descname">get_right_width</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">root</span></em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.visualizer.get_right_width" title="永久链接至目标">¶</a></dt>
 <dd><p>获取根右边的宽度</p>
 <dl class="field-list simple">
 <dt class="field-odd">参数</dt>
@@ -705,9 +801,9 @@
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="deployer.visualizer.get_width">
-<code class="sig-prename descclassname">deployer.visualizer.</code><code class="sig-name descname">get_width</code><span class="sig-paren">(</span><em class="sig-param">root</em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.visualizer.get_width" title="永久链接至目标">¶</a></dt>
+<code class="sig-prename descclassname">deployer.visualizer.</code><code class="sig-name descname">get_width</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">root</span></em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.visualizer.get_width" title="永久链接至目标">¶</a></dt>
 <dd><p>获得树的宽度</p>
 <dl class="field-list simple">
 <dt class="field-odd">参数</dt>
@@ -722,9 +818,9 @@
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="deployer.visualizer.get_width_and_height">
-<code class="sig-prename descclassname">deployer.visualizer.</code><code class="sig-name descname">get_width_and_height</code><span class="sig-paren">(</span><em class="sig-param">root</em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.visualizer.get_width_and_height" title="永久链接至目标">¶</a></dt>
+<code class="sig-prename descclassname">deployer.visualizer.</code><code class="sig-name descname">get_width_and_height</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">root</span></em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.visualizer.get_width_and_height" title="永久链接至目标">¶</a></dt>
 <dd><p>调用 get_width 函数和 get_height 函数获得树的宽度和高度</p>
 <dl class="field-list simple">
 <dt class="field-odd">参数</dt>

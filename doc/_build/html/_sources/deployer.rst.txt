@@ -4,6 +4,14 @@ deployer package
 Submodules
 ----------
 
+deployer.AnomalyRate module
+---------------------------
+
+.. automodule:: deployer.AnomalyRate
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 deployer.BinaryTree module
 --------------------------
 

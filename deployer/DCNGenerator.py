@@ -44,7 +44,6 @@ import random
 OUTPUT_DIR = '../test'
 
 
-# TODO: 实现该算法
 def data_center_network_generator(n_groups, m_hosts, random_alarm_rate=False):
     """
     生成数据中心网络的描述文件
