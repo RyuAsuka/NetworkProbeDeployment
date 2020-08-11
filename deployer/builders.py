@@ -9,14 +9,14 @@ def build_tree(struct, layer):
 
     Parameters
     ----------
-    struct: Iterable
+    struct : Iterable
         DCNode 组成的可迭代列表
     layer: int
         树的层数
 
     Returns
     -------
-    TreeNode:
+    TreeNode
         生成的二叉树的根节点
     """
     if len(struct) == 1:
@@ -59,12 +59,12 @@ def build_struct(filename):
 
     Parameters
     ----------
-    filename: str
+    filename : str
         输入文件的路径。
 
     Returns
     -------
-    list:
+    list
         一个映射到数据中心网络的列表。
     """
     struct = []

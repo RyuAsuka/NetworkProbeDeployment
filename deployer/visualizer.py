@@ -6,9 +6,14 @@
 """
 import matplotlib.pyplot as plt
 from matplotlib.patches import Circle
-
+from matplotlib.patches import Rectangle
 from deployer.BinaryTree import TreeNode
 from deployer.BinaryTree import mid_order
+
+
+d_hor = 4  # 节点水平距离
+d_vec = 8  # 节点垂直距离
+radius = 2  # 节点的半径
 
 
 def get_left_width(root):
@@ -17,12 +22,12 @@ def get_left_width(root):
 
     Parameters
     ----------
-    root: TreeNode
+    root : TreeNode
         树的根节点
 
     Returns
     -------
-    int:
+    int
         根左边的宽度值
     """
     return get_width(root.left)
@@ -34,12 +39,12 @@ def get_right_width(root):
 
     Parameters
     ----------
-    root: TreeNode
+    root : TreeNode
         树的根节点
 
     Returns
     -------
-    int:
+    int
         根右边的宽度值
     """
     return get_width(root.right)
@@ -51,17 +56,17 @@ def get_width(root):
 
     Parameters
     ----------
-    root: TreeNode
+    root : TreeNode
         树的根节点
 
     Returns
     -------
-    int:
+    int
         宽度值
     """
     if not root:
         return 0
-    return get_width(root.left) + 1 + get_width(root.right)
+    return get_width(root.left) + radius + get_width(root.right)
 
 
 def get_height(root):
@@ -70,22 +75,17 @@ def get_height(root):
 
     Parameters
     ----------
-    root: TreeNode
+    root : TreeNode
         树的根节点
 
     Returns
     -------
-    int:
+    int
         树的高度值
     """
     if not root:
         return 0
     return max(get_height(root.left), get_height(root.right))
-
-
-d_hor = 4  # 节点水平距离
-d_vec = 8  # 节点垂直距离
-radius = 1  # 节点的半径
 
 
 def get_width_and_height(root):
@@ -94,12 +94,12 @@ def get_width_and_height(root):
 
     Parameters
     ----------
-    root: TreeNode
+    root : TreeNode
         树的根节点
 
     Returns
     -------
-    tuple(int, int):
+    tuple of (int, int):
         返回树的宽度和高度
     """
     w = get_width(root)
@@ -107,26 +107,46 @@ def get_width_and_height(root):
     return w, h
 
 
-def draw_a_node(x, y, val, ax, color):
+def draw_a_inner_node(x, y, val, ax, color):
     """
-    画一个节点
+    画一个内部节点（用圆形表示）
 
     Parameters
     ----------
-    x: int
+    x : int
         节点的 x 坐标
-    y: int
+    y : int
         节点的 y 坐标
-    val: str
+    val : str
         节点的名称
-    ax: matplotlib.pyplot.Axes
+    ax : matplotlib.pyplot.Axes
         Axes 画布
-    color: str
+    color : str
         颜色
     """
     c_node = Circle((x, y), radius=radius, color=color)
     ax.add_patch(c_node)
     plt.text(x, y, f'{val}', ha='center', va='bottom', fontsize=11)
+
+
+def draw_a_leaf_node(x, y, val, ax):
+    """
+    画一个叶子节点（用矩形表示）
+
+    Parameters
+    ----------
+    x : int
+        节点的 x 坐标
+    y : int
+        节点的 y 坐标
+    val : str
+        节点的名称
+    ax : matplotlib.pyplot.Axes
+        Axes画布
+    """
+    leaf_node = Rectangle((x, y-radius*2), width=radius*2, height=radius*2, color='black')
+    ax.add_patch(leaf_node)
+    plt.text(x+radius, y-radius*2, f'{val}', ha='center', va='bottom', fontsize=11, color='white')
 
 
 def draw_an_edge(x1, x2, y1, y2, r=radius):
@@ -135,15 +155,15 @@ def draw_an_edge(x1, x2, y1, y2, r=radius):
 
     Parameters
     ----------
-    x1: int
+    x1 : int
         第一个点的第一个坐标
-    x2: int
+    x2 : int
         第一个点的第二个坐标
-    y1: int
+    y1 : int
         第二个点的第一个坐标
-    y2: int
+    y2 : int
         第二个点的第二个坐标
-    r: int
+    r : int
         半径
     """
     x = (x1, x2)
@@ -157,11 +177,11 @@ def create_win(root):
 
     Parameters
     ----------
-    root: 树的根节点
+    root : 树的根节点
 
     Returns
     -------
-    tuple(`~matplotlib.figure.Figure`, `~matplotlib.pyplot.Axes`, int, int):
+    tuple of (`~matplotlib.figure.Figure`, `~matplotlib.pyplot.Axes`, int, int):
         返回 figure 对象, Axes 对象，以及第一个点的坐标
     """
     width, height = get_width_and_height(root)
@@ -188,21 +208,23 @@ def draw_tree_by_midorder(root, x, y, ax):
 
     Parameters
     ----------
-    root: TreeNode
+    root : TreeNode
         树的根节点
-    x: int
+    x : int
         第一个点的 x 坐标
-    y: int
+    y : int
         第一个点的 y 坐标
-    ax: `~matplotlib.pyplot.Axes`
+    ax : `~matplotlib.pyplot.Axes`
         Axes 对象
     """
     if not root:
         return
-    if root.dpr:
-        draw_a_node(x, y, root.name, ax, color='green')
+    if root.is_leaf:
+        draw_a_leaf_node(x, y, root.name, ax)
+    elif root.dpr:
+        draw_a_inner_node(x, y, root.name, ax, color='green')
     else:
-        draw_a_node(x, y, root.name, ax, color='yellow')
+        draw_a_inner_node(x, y, root.name, ax, color='yellow')
     lx = rx = 0
     ly = ry = y - d_vec
     if root.left:

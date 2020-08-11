@@ -9,18 +9,18 @@ def _build_tree_string(root, curr_index, index=False, delimiter='-'):
 
     Parameters
     ----------
-    root: TreeNode
+    root : TreeNode
         树的根节点。
-    curr_index: int
+    curr_index : int
         当前节点的标号。
-    index: boolean, default=False
+    index : boolean, default=False
         （作用暂且不明）
-    delimiter: str, default='-'
+    delimiter : str, default='-'
         树的节点之间的连接符
 
     Returns
     -------
-    tuple(list, int, int, int):
+    tuple of (list, int, int, int)
         树的节点的字符串表示。
     """
     if root is None:
@@ -87,12 +87,12 @@ def pre_order(tree):
 
     Parameters
     ----------
-    tree: TreeNode
+    tree : TreeNode
         二叉树根节点
 
     Returns
     -------
-    list of TreeNode:
+    list of TreeNode
         二叉树的前序遍历顺序
     """
     result = []
@@ -112,12 +112,12 @@ def mid_order(tree):
 
     Parameters
     ----------
-    tree: TreeNode
+    tree : TreeNode
         二叉树根节点
 
     Returns
     -------
-    list of TreeNode:
+    list of TreeNode
         二叉树的中序遍历顺序
     """
     result = []
@@ -142,12 +142,12 @@ def post_order(tree):
 
     Parameters
     ----------
-    tree: TreeNode
+    tree : TreeNode
         要进行后序遍历的（子）树
 
     Returns
     -------
-    list[TreeNode]:
+    list of TreeNode
         后序遍历的节点顺序列表
     """
     result = []
@@ -165,17 +165,30 @@ class TreeNode(object):
     """
     二叉树节点
 
+    Parameters
+    ----------
+    name : str
+        该节点的名称。
+    dpr : bool, default False
+        该节点是否部署 DPR。
+    solutions : list, optional
+        该节点的解集
+    left : TreeNode, optional
+        该节点的左子节点
+    right : TreeNode, optional
+        该节点的右子节点
+
     Attributes
     ----------
-    name: str
+    name : str
         该节点的名称
-    dpr: boolean
+    dpr : boolean
         是否在该节点上部署 DPR
-    solutions: list[Solution]
+    solutions : list of Solution
         该节点上的解集列表
-    left: TreeNode
+    left : TreeNode
         该节点的左子节点
-    right: TreeNode
+    right : TreeNode
         该节点的右子节点
     """
     def __init__(self, name, dpr=False, solutions=None, left=None, right=None):
@@ -208,7 +221,7 @@ class TreeNode(object):
 
         Returns
         -------
-        boolean:
+        bool
             如果是叶子节点返回 True，否则为 False
         """
         return self.left is None and self.right is None

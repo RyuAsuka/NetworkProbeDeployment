@@ -7,21 +7,39 @@ class Solution(object):
     """
     定义一个二叉树节点的 DPR 插入解
 
+    Parameters
+    ----------
+    name : str
+        该解的名称，应和该解所在节点的名称一致。
+    cI : int
+        该解中，插入 DPR 的个数
+    cM : int
+        该解中，该节点下游未插入 DPR 的个数
+    pl : float
+        该解中的异常率下限（>= 0）
+    pu : float
+        该解中的异常率上限 (<= 1)
+    dpr : bool
+        该解中，该节点是否插入 DPR
+    history : list of int
+        该解下游所有历史解
+
+
     Attributes
     ----------
-    name: str
+    name : str
         该解的名称，应和该解所在节点的名称一致。
-    cI: int
+    cI : int, default 0
         该解中，插入 DPR 的个数
-    cM: int
+    cM : int, default 0
         该解中，该节点下游未插入 DPR 的个数
-    pl: float
+    pl : float, default 0
         该解中的异常率下限（>= 0）
-    pu: float
+    pu : float, default 0
         该解中的异常率上限 (<= 1)
-    dpr: boolean
+    dpr : boolean, default False
         该解中，该节点是否插入 DPR
-    history: list[int]
+    history : list of int, optional
         该解下游所有历史解
     """
     def __init__(self, name, cI=0, cM=0, pl=0, pu=0, dpr=False, history=None):
@@ -54,8 +72,13 @@ class Solution(object):
 
         Parameters
         ----------
-        p_max: float
+        p_max : float
             设定的最大异常率，如果该解的异常率超过该阈值，该解会被丢弃。
+
+        Returns
+        -------
+        bool
+            返回指示该解是否合法的 bool 值。
         """
         return (self.p[0] + self.p[1]) / 2 <= p_max
 
@@ -121,12 +144,12 @@ def solve(post_seq):
 
     Parameters
     ----------
-    post_seq: list[TreeNode]
+    post_seq: list of TreeNode
         后序遍历生成的节点序列
 
     Returns
     -------
-    Solution:
+    Solution
         根节点的最佳解。
     """
     for node in post_seq:
@@ -152,12 +175,12 @@ def merge_solutions(solutions):
 
     Parameters
     ----------
-    solutions: list[Solutions]
+    solutions: list of Solution
         解集列表
 
     Returns
     -------
-    list[Solutions]:
+    list of Solution
         合并后的解集，其中的每个解都应满足：和其他的解无法比较大小
     """
     i = 0

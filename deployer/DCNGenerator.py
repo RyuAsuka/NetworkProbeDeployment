@@ -50,11 +50,11 @@ def data_center_network_generator(n_groups, m_hosts, random_alarm_rate=False):
 
     Parameters
     ----------
-    n_groups: int
+    n_groups : int
         数据中心网络的组数
-    m_hosts: list of int
+    m_hosts : list of int
         每组中数据中心网络的个数
-    random_alarm_rate: boolean
+    random_alarm_rate : bool
         是否随机生成异常率，若为 False，则所有的主机异常率为 0.0.
     """
     with open(f'{OUTPUT_DIR}/{sum(m_hosts)}tenants.txt', 'w+') as output_file:
@@ -77,7 +77,7 @@ def _random_generate_alarm_rate():
 
     Returns
     -------
-    tuple(float, float):
+    tuple of (float, float):
         生成的 ``ar_min`` 和 ``ar_max``
     """
     ar_min = random.random()

@@ -37,12 +37,12 @@ def get_anomaly(data_array):
 
     Parameters
     ----------
-    data_array: numpy.ndarray
+    data_array : numpy.ndarray
         一个形状为 (d, n) 的矩阵，其中 d 为数据的天数，n 为数据的时段数。表示输入数据。
 
     Returns
     -------
-    List:
+    list
         一个形状为 (n*d, 1) 的向量，表示整个数据集中有多少个异常点。其中，异常点标记为 1，非异常点标记为0。
     """
     flattened_array = data_array.reshape(-1, 1)
@@ -66,17 +66,17 @@ def get_anomaly_rate(anomaly_vec, window_size, start_pos):
 
     Parameters
     ----------
-    anomaly_vec: list
+    anomaly_vec : list
         根据 ``get_anomaly`` 函数计算得到的异常数列表。
-    window_size: int
+    window_size : int
         窗口大小
-    start_pos: int
+    start_pos : int
         起始位置，范围是 ``[1, len(anomaly_vec)-window_size+1]``. 计算时应注意从 1 开始计算。
         因此数组中的 ``start_pos`` 要减一。
 
     Returns
     -------
-    float:
+    float
         该窗口和起始位置条件下的异常率。
     """
     return float(sum(anomaly_vec[start_pos-1:start_pos+window_size-1])) / window_size
@@ -88,14 +88,14 @@ def get_max_min_anomaly_rate(anomaly_vec, window_size):
 
     Parameters
     ----------
-    anomaly_vec: List
+    anomaly_vec : List
         根据 ``get_anomaly`` 函数计算的到的异常数列表。
-    window_size: int
+    window_size : int
         窗口大小
 
     Returns
     -------
-    tuple(float, float):
+    tuple of (float, float)
         分别表示最小异常率和最大异常率。
     """
     all_anomaly_rates = []
