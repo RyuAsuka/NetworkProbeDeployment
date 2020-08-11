@@ -85,7 +85,6 @@
             
               <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">deployer package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-deployer.AnomalyRate">deployer.AnomalyRate module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id1">异常的产生</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#id2">数据集格式</a></li>
@@ -104,7 +103,6 @@
 <li class="toctree-l2"><a class="reference internal" href="#module-deployer.Solution">deployer.Solution module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-deployer.builders">deployer.builders module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-deployer.visualizer">deployer.visualizer module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-deployer">Module contents</a></li>
 </ul>
 </li>
 </ul>
@@ -174,9 +172,6 @@
             
   <div class="section" id="deployer-package">
 <h1>deployer package<a class="headerlink" href="#deployer-package" title="永久链接至标题">¶</a></h1>
-<div class="section" id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="永久链接至标题">¶</a></h2>
-</div>
 <div class="section" id="module-deployer.AnomalyRate">
 <span id="deployer-anomalyrate-module"></span><h2>deployer.AnomalyRate module<a class="headerlink" href="#module-deployer.AnomalyRate" title="永久链接至标题">¶</a></h2>
 <p>从数据矩阵中读取异常率，并计算最小/最大异常率。</p>
@@ -214,7 +209,7 @@
 <dd class="field-even"><p>一个形状为 (n*d, 1) 的向量，表示整个数据集中有多少个异常点。其中，异常点标记为 1，非异常点标记为0。</p>
 </dd>
 <dt class="field-odd">返回类型</dt>
-<dd class="field-odd"><p>List</p>
+<dd class="field-odd"><p>list</p>
 </dd>
 </dl>
 </dd></dl>
@@ -257,7 +252,7 @@
 <dd class="field-even"><p>分别表示最小异常率和最大异常率。</p>
 </dd>
 <dt class="field-odd">返回类型</dt>
-<dd class="field-odd"><p>tuple(float, float)</p>
+<dd class="field-odd"><p>tuple of (float, float)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -272,6 +267,17 @@
 <em class="property">class </em><code class="sig-prename descclassname">deployer.BinaryTree.</code><code class="sig-name descname">TreeNode</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em>, <em class="sig-param"><span class="n">dpr</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">solutions</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">left</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">right</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.BinaryTree.TreeNode" title="永久链接至目标">¶</a></dt>
 <dd><p>基类：<code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>二叉树节点</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – 该节点的名称。</p></li>
+<li><p><strong>dpr</strong> (<em>bool</em><em>, </em><em>default False</em>) – 该节点是否部署 DPR。</p></li>
+<li><p><strong>solutions</strong> (<em>list</em><em>, </em><em>optional</em>) – 该节点的解集</p></li>
+<li><p><strong>left</strong> (<a class="reference internal" href="#deployer.BinaryTree.TreeNode" title="deployer.BinaryTree.TreeNode"><em>TreeNode</em></a><em>, </em><em>optional</em>) – 该节点的左子节点</p></li>
+<li><p><strong>right</strong> (<a class="reference internal" href="#deployer.BinaryTree.TreeNode" title="deployer.BinaryTree.TreeNode"><em>TreeNode</em></a><em>, </em><em>optional</em>) – 该节点的右子节点</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py attribute">
 <dt id="deployer.BinaryTree.TreeNode.name">
 <code class="sig-name descname">name</code><a class="headerlink" href="#deployer.BinaryTree.TreeNode.name" title="永久链接至目标">¶</a></dt>
@@ -300,7 +306,7 @@
 <dd><p>该节点上的解集列表</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>list[<a class="reference internal" href="#deployer.Solution.Solution" title="deployer.Solution.Solution">Solution</a>]</p>
+<dd class="field-odd"><p>list of Solution</p>
 </dd>
 </dl>
 </dd></dl>
@@ -336,7 +342,7 @@
 <dd class="field-odd"><p>如果是叶子节点返回 True，否则为 False</p>
 </dd>
 <dt class="field-even">返回类型</dt>
-<dd class="field-even"><p>boolean</p>
+<dd class="field-even"><p>bool</p>
 </dd>
 </dl>
 </dd></dl>
@@ -378,7 +384,7 @@
 <dd class="field-even"><p>后序遍历的节点顺序列表</p>
 </dd>
 <dt class="field-odd">返回类型</dt>
-<dd class="field-odd"><p>list[<a class="reference internal" href="#deployer.BinaryTree.TreeNode" title="deployer.BinaryTree.TreeNode">TreeNode</a>]</p>
+<dd class="field-odd"><p>list of TreeNode</p>
 </dd>
 </dl>
 </dd></dl>
@@ -437,7 +443,7 @@
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>n_groups</strong> (<em>int</em>) – 数据中心网络的组数</p></li>
 <li><p><strong>m_hosts</strong> (<em>list of int</em>) – 每组中数据中心网络的个数</p></li>
-<li><p><strong>random_alarm_rate</strong> (<em>boolean</em>) – 是否随机生成异常率，若为 False，则所有的主机异常率为 0.0.</p></li>
+<li><p><strong>random_alarm_rate</strong> (<em>bool</em>) – 是否随机生成异常率，若为 False，则所有的主机异常率为 0.0.</p></li>
 </ul>
 </dd>
 </dl>
@@ -453,10 +459,19 @@
 <em class="property">class </em><code class="sig-prename descclassname">deployer.DCNode.</code><code class="sig-name descname">DCNode</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em>, <em class="sig-param"><span class="n">ar_min</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">ar_max</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.DCNode.DCNode" title="永久链接至目标">¶</a></dt>
 <dd><p>基类：<code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>定义数据中心节点类。包含节点的名称，最小/最大异常率。其中，最小异常率 &lt;= 最大异常率。</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – 节点的名称。</p></li>
+<li><p><strong>ar_min</strong> (<em>float</em><em>, </em><em>default 0</em>) – 节点的最小异常率。</p></li>
+<li><p><strong>ar_max</strong> (<em>float</em><em>, </em><em>default 0</em>) – 节点的最大异常率。</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py attribute">
 <dt id="deployer.DCNode.DCNode.name">
 <code class="sig-name descname">name</code><a class="headerlink" href="#deployer.DCNode.DCNode.name" title="永久链接至目标">¶</a></dt>
-<dd><p>该节点的名称</p>
+<dd><p>该节点的名称。</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
 <dd class="field-odd"><p>str</p>
@@ -467,7 +482,7 @@
 <dl class="py attribute">
 <dt id="deployer.DCNode.DCNode.ar_min">
 <code class="sig-name descname">ar_min</code><a class="headerlink" href="#deployer.DCNode.DCNode.ar_min" title="永久链接至目标">¶</a></dt>
-<dd><p>范围为 [0, 1]，该节点的最小异常率</p>
+<dd><p>范围为 [0, 1]，该节点的最小异常率。</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
 <dd class="field-odd"><p>float</p>
@@ -478,7 +493,7 @@
 <dl class="py attribute">
 <dt id="deployer.DCNode.DCNode.ar_max">
 <code class="sig-name descname">ar_max</code><a class="headerlink" href="#deployer.DCNode.DCNode.ar_max" title="永久链接至目标">¶</a></dt>
-<dd><p>范围为 [0, 1]，该节点的最大异常率</p>
+<dd><p>范围为 [0, 1]，该节点的最大异常率。</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
 <dd class="field-odd"><p>float</p>
@@ -486,6 +501,7 @@
 </dl>
 </dd></dl>
 
+<p>:raises ValueError : 如果输入不合法则抛出 ValueError 异常。:</p>
 </dd></dl>
 
 </div>
@@ -497,6 +513,19 @@
 <em class="property">class </em><code class="sig-prename descclassname">deployer.Solution.</code><code class="sig-name descname">Solution</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em>, <em class="sig-param"><span class="n">cI</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">cM</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">pl</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">pu</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">dpr</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">history</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.Solution.Solution" title="永久链接至目标">¶</a></dt>
 <dd><p>基类：<code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>定义一个二叉树节点的 DPR 插入解</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – 该解的名称，应和该解所在节点的名称一致。</p></li>
+<li><p><strong>cI</strong> (<em>int</em>) – 该解中，插入 DPR 的个数</p></li>
+<li><p><strong>cM</strong> (<em>int</em>) – 该解中，该节点下游未插入 DPR 的个数</p></li>
+<li><p><strong>pl</strong> (<em>float</em>) – 该解中的异常率下限（&gt;= 0）</p></li>
+<li><p><strong>pu</strong> (<em>float</em>) – 该解中的异常率上限 (&lt;= 1)</p></li>
+<li><p><strong>dpr</strong> (<em>bool</em>) – 该解中，该节点是否插入 DPR</p></li>
+<li><p><strong>history</strong> (<em>list of int</em>) – 该解下游所有历史解</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py attribute">
 <dt id="deployer.Solution.Solution.name">
 <code class="sig-name descname">name</code><a class="headerlink" href="#deployer.Solution.Solution.name" title="永久链接至目标">¶</a></dt>
@@ -514,7 +543,7 @@
 <dd><p>该解中，插入 DPR 的个数</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>int</p>
+<dd class="field-odd"><p>int, default 0</p>
 </dd>
 </dl>
 </dd></dl>
@@ -525,7 +554,7 @@
 <dd><p>该解中，该节点下游未插入 DPR 的个数</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>int</p>
+<dd class="field-odd"><p>int, default 0</p>
 </dd>
 </dl>
 </dd></dl>
@@ -536,7 +565,7 @@
 <dd><p>该解中的异常率下限（&gt;= 0）</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>float</p>
+<dd class="field-odd"><p>float, default 0</p>
 </dd>
 </dl>
 </dd></dl>
@@ -547,7 +576,7 @@
 <dd><p>该解中的异常率上限 (&lt;= 1)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>float</p>
+<dd class="field-odd"><p>float, default 0</p>
 </dd>
 </dl>
 </dd></dl>
@@ -558,7 +587,7 @@
 <dd><p>该解中，该节点是否插入 DPR</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>boolean</p>
+<dd class="field-odd"><p>boolean, default False</p>
 </dd>
 </dl>
 </dd></dl>
@@ -569,7 +598,7 @@
 <dd><p>该解下游所有历史解</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>list[int]</p>
+<dd class="field-odd"><p>list of int, optional</p>
 </dd>
 </dl>
 </dd></dl>
@@ -581,6 +610,12 @@
 <dl class="field-list simple">
 <dt class="field-odd">参数</dt>
 <dd class="field-odd"><p><strong>p_max</strong> (<em>float</em>) – 设定的最大异常率，如果该解的异常率超过该阈值，该解会被丢弃。</p>
+</dd>
+<dt class="field-even">返回</dt>
+<dd class="field-even"><p>返回指示该解是否合法的 bool 值。</p>
+</dd>
+<dt class="field-odd">返回类型</dt>
+<dd class="field-odd"><p>bool</p>
 </dd>
 </dl>
 </dd></dl>
@@ -604,13 +639,13 @@
 <dd><p>合并解</p>
 <dl class="field-list simple">
 <dt class="field-odd">参数</dt>
-<dd class="field-odd"><p><strong>solutions</strong> (<em>list</em><em>[</em><em>Solutions</em><em>]</em>) – 解集列表</p>
+<dd class="field-odd"><p><strong>solutions</strong> (<em>list of Solution</em>) – 解集列表</p>
 </dd>
 <dt class="field-even">返回</dt>
 <dd class="field-even"><p>合并后的解集，其中的每个解都应满足：和其他的解无法比较大小</p>
 </dd>
 <dt class="field-odd">返回类型</dt>
-<dd class="field-odd"><p>list[Solutions]</p>
+<dd class="field-odd"><p>list of Solution</p>
 </dd>
 </dl>
 </dd></dl>
@@ -621,7 +656,7 @@
 <dd><p>后序遍历生成解</p>
 <dl class="field-list simple">
 <dt class="field-odd">参数</dt>
-<dd class="field-odd"><p><strong>post_seq</strong> (<em>list</em><em>[</em><a class="reference internal" href="#deployer.BinaryTree.TreeNode" title="deployer.BinaryTree.TreeNode"><em>TreeNode</em></a><em>]</em>) – 后序遍历生成的节点序列</p>
+<dd class="field-odd"><p><strong>post_seq</strong> (<em>list of TreeNode</em>) – 后序遍历生成的节点序列</p>
 </dd>
 <dt class="field-even">返回</dt>
 <dd class="field-even"><p>根节点的最佳解。</p>
@@ -695,15 +730,15 @@
 <dd class="field-even"><p>返回 figure 对象, Axes 对象，以及第一个点的坐标</p>
 </dd>
 <dt class="field-odd">返回类型</dt>
-<dd class="field-odd"><p>tuple(<cite>~matplotlib.figure.Figure</cite>, <cite>~matplotlib.pyplot.Axes</cite>, int, int)</p>
+<dd class="field-odd"><p>tuple of (<cite>~matplotlib.figure.Figure</cite>, <cite>~matplotlib.pyplot.Axes</cite>, int, int)</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
-<dt id="deployer.visualizer.draw_a_node">
-<code class="sig-prename descclassname">deployer.visualizer.</code><code class="sig-name descname">draw_a_node</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">val</span></em>, <em class="sig-param"><span class="n">ax</span></em>, <em class="sig-param"><span class="n">color</span></em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.visualizer.draw_a_node" title="永久链接至目标">¶</a></dt>
-<dd><p>画一个节点</p>
+<dt id="deployer.visualizer.draw_a_inner_node">
+<code class="sig-prename descclassname">deployer.visualizer.</code><code class="sig-name descname">draw_a_inner_node</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">val</span></em>, <em class="sig-param"><span class="n">ax</span></em>, <em class="sig-param"><span class="n">color</span></em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.visualizer.draw_a_inner_node" title="永久链接至目标">¶</a></dt>
+<dd><p>画一个内部节点（用圆形表示）</p>
 <dl class="field-list simple">
 <dt class="field-odd">参数</dt>
 <dd class="field-odd"><ul class="simple">
@@ -718,8 +753,24 @@
 </dd></dl>
 
 <dl class="py function">
+<dt id="deployer.visualizer.draw_a_leaf_node">
+<code class="sig-prename descclassname">deployer.visualizer.</code><code class="sig-name descname">draw_a_leaf_node</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">val</span></em>, <em class="sig-param"><span class="n">ax</span></em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.visualizer.draw_a_leaf_node" title="永久链接至目标">¶</a></dt>
+<dd><p>画一个叶子节点（用矩形表示）</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>int</em>) – 节点的 x 坐标</p></li>
+<li><p><strong>y</strong> (<em>int</em>) – 节点的 y 坐标</p></li>
+<li><p><strong>val</strong> (<em>str</em>) – 节点的名称</p></li>
+<li><p><strong>ax</strong> (<em>matplotlib.pyplot.Axes</em>) – Axes画布</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt id="deployer.visualizer.draw_an_edge">
-<code class="sig-prename descclassname">deployer.visualizer.</code><code class="sig-name descname">draw_an_edge</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x1</span></em>, <em class="sig-param"><span class="n">x2</span></em>, <em class="sig-param"><span class="n">y1</span></em>, <em class="sig-param"><span class="n">y2</span></em>, <em class="sig-param"><span class="n">r</span><span class="o">=</span><span class="default_value">1</span></em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.visualizer.draw_an_edge" title="永久链接至目标">¶</a></dt>
+<code class="sig-prename descclassname">deployer.visualizer.</code><code class="sig-name descname">draw_an_edge</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x1</span></em>, <em class="sig-param"><span class="n">x2</span></em>, <em class="sig-param"><span class="n">y1</span></em>, <em class="sig-param"><span class="n">y2</span></em>, <em class="sig-param"><span class="n">r</span><span class="o">=</span><span class="default_value">2</span></em><span class="sig-paren">)</span><a class="headerlink" href="#deployer.visualizer.draw_an_edge" title="永久链接至目标">¶</a></dt>
 <dd><p>绘制一条边</p>
 <dl class="field-list simple">
 <dt class="field-odd">参数</dt>
@@ -830,14 +881,11 @@
 <dd class="field-even"><p>返回树的宽度和高度</p>
 </dd>
 <dt class="field-odd">返回类型</dt>
-<dd class="field-odd"><p>tuple(int, int)</p>
+<dd class="field-odd"><p>tuple of (int, int)</p>
 </dd>
 </dl>
 </dd></dl>
 
-</div>
-<div class="section" id="module-deployer">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-deployer" title="永久链接至标题">¶</a></h2>
 </div>
 </div>
 
