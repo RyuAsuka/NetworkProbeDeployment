@@ -132,3 +132,4 @@ dmypy.json
 # pycharm
 .idea/
 
+/doc/_build/
