@@ -22,9 +22,10 @@ def build_tree(struct, layer):
     if len(struct) == 1:
         nodes = []
         for i in range(len(struct[0])):
-            node = TreeNode(name=struct[0][i].name + "\'")
+            node = TreeNode(name=struct[0][i].name + "\'", ip=struct[0][i].ip)
             node.right = TreeNode(
                 name=struct[0][i].name,
+                ip=struct[0][i].ip,
                 solutions=[
                     Solution(
                         name=struct[0][i].name,
@@ -40,9 +41,9 @@ def build_tree(struct, layer):
         return nodes[0]
     else:
         if layer == 0:
-            root = TreeNode('root' + str(layer), dpr=True)
+            root = TreeNode('root' + str(layer), ip=None, dpr=True)
         else:
-            root = TreeNode('root' + str(layer), dpr=False)
+            root = TreeNode('root' + str(layer), ip=None, dpr=False)
         root.left = build_tree(struct[:1], layer + 1)
         root.right = build_tree(struct[1:], layer + 1)
         return root
@@ -80,9 +81,12 @@ def build_struct(filename):
                 node_info = all_lines[j].split(',')
                 pdu.append(
                     DCNode(
-                        node_info[0], float(
-                            node_info[1]), float(
-                            node_info[2])))
+                        node_info[0],
+                        node_info[1],
+                        float(node_info[2]),
+                        float(node_info[3])
+                    )
+                )
                 j += 1
             struct.append(pdu)
             l += int(all_lines[l]) + 1

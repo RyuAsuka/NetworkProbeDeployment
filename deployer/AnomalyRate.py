@@ -31,7 +31,7 @@ import numpy as np
 from sklearn.covariance import MinCovDet
 
 
-def get_anomaly(data_array):
+def get_anomaly(support):
     """
     根据数据矩阵，获取其异常数列表。
 
@@ -45,10 +45,10 @@ def get_anomaly(data_array):
     list
         一个形状为 (n*d, 1) 的向量，表示整个数据集中有多少个异常点。其中，异常点标记为 1，非异常点标记为0。
     """
-    flattened_array = data_array.reshape(-1, 1)
-    mcd = MinCovDet()
-    mcd.fit(flattened_array)
-    support = mcd.support_
+    # flattened_array = data_array.reshape(-1, 1)
+    # mcd = MinCovDet()
+    # mcd.fit(flattened_array)
+    # support = mcd.support_
     anomaly = []
     for is_not_outline in support:
         if is_not_outline:
@@ -101,4 +101,7 @@ def get_max_min_anomaly_rate(anomaly_vec, window_size):
     all_anomaly_rates = []
     for start_pos in range(1, len(anomaly_vec)-window_size+1):
         all_anomaly_rates.append(get_anomaly_rate(anomaly_vec, window_size, start_pos))
-    return min(all_anomaly_rates), max(all_anomaly_rates)
+    if all_anomaly_rates:
+        return min(all_anomaly_rates), max(all_anomaly_rates)
+    else:
+        return 0.0, 0.0

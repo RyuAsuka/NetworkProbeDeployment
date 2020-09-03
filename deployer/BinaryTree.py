@@ -28,10 +28,14 @@ def _build_tree_string(root, curr_index, index=False, delimiter='-'):
 
     line1 = []
     line2 = []
-    if index:
-        node_repr = '{}{}{}'.format(curr_index, delimiter, root.name)
+    if root.dpr:
+        new_name = root.name + '√'
     else:
-        node_repr = str(root.name)
+        new_name = root.name
+    if index:
+        node_repr = '{}{}{}'.format(curr_index, delimiter, new_name)
+    else:
+        node_repr = str(new_name)
 
     new_root_width = gap_size = len(node_repr)
 
@@ -169,6 +173,8 @@ class TreeNode(object):
     ----------
     name : str
         该节点的名称。
+    ip : str, optional
+        该节点的 IP 地址。
     dpr : bool, default False
         该节点是否部署 DPR。
     solutions : list, optional
@@ -191,8 +197,9 @@ class TreeNode(object):
     right : TreeNode
         该节点的右子节点
     """
-    def __init__(self, name, dpr=False, solutions=None, left=None, right=None):
+    def __init__(self, name, ip=None, dpr=False, solutions=None, left=None, right=None):
         self.name = name
+        self.ip = ip
         self.dpr = dpr
         if not solutions:
             self.solutions = []

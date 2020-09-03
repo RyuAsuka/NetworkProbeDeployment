@@ -30,12 +30,13 @@ class DCNode(object):
     ------
     ValueError : 如果输入不合法则抛出 ValueError 异常。
     """
-    def __init__(self, name, ar_min=0, ar_max=0):
+    def __init__(self, name, ip, ar_min=0, ar_max=0):
         if ar_min < 0 or ar_min > 1 or ar_max < 0 or ar_max > 1:
             raise ValueError('Invalid ar_min and ar_max value! It should between [0, 1].')
         if ar_min > ar_max:
             raise ValueError('AR_min must be <= AR_max')
         self.name = name
+        self.ip = ip
         self.ar_min = ar_min
         self.ar_max = ar_max
 

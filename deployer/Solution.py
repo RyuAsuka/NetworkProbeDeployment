@@ -66,7 +66,7 @@ class Solution(object):
         return self.cI <= other.cI and self.cM <= other.cM and \
                (self.p[0] + self.p[1]) / 2 <= (other.p[0] + other.p[1]) / 2
 
-    def is_valid(self, p_max):
+    def is_valid(self, p_max, c_max):
         """
         判断该解是否合法
 
@@ -80,10 +80,11 @@ class Solution(object):
         bool
             返回指示该解是否合法的 bool 值。
         """
-        return (self.p[0] + self.p[1]) / 2 <= p_max
+        return (self.p[0] + self.p[1]) / 2 <= p_max and self.cM <= c_max
 
 
 P_MAX = 0.5
+C_MAX = 10
 
 
 def generate_solutions(node):
@@ -113,7 +114,7 @@ def generate_solutions(node):
                 new_sol.cM = sr.cM
                 new_sol.p = [sr.p[0], sr.p[1]]
                 new_sol.history.append(0)
-            if new_sol.is_valid(P_MAX):
+            if new_sol.is_valid(P_MAX, C_MAX):
                 node.solutions.append(new_sol)
     else:
         for sl in node.left.solutions:
@@ -134,7 +135,7 @@ def generate_solutions(node):
                         sl.p[1] + sr.p[1] - sl.p[1] * sr.p[1]
                     ]
                     new_sol.history.append(0)
-                if new_sol.is_valid(P_MAX):
+                if new_sol.is_valid(P_MAX, C_MAX):
                     node.solutions.append(new_sol)
 
 
