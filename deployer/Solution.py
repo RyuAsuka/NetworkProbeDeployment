@@ -39,9 +39,10 @@ class Solution(object):
         该解中的异常率上限 (<= 1)
     dpr : boolean, default False
         该解中，该节点是否插入 DPR
-    history : list of int, optional
+    history : list, optional
         该解下游所有历史解
     """
+
     def __init__(self, name, cI=0, cM=0, pl=0, pu=0, dpr=False, history=None):
         self.name = name
         self.cI = cI
@@ -58,12 +59,14 @@ class Solution(object):
 
     def __ge__(self, other):
         assert isinstance(other, Solution)
-        return self.cI >= other.cI and self.cM >= other.cM and \
+        return self.cI >= other.cI and \
+               self.cM >= other.cM and \
                (self.p[0] + self.p[1]) / 2 >= (other.p[0] + other.p[1]) / 2
 
     def __le__(self, other):
         assert isinstance(other, Solution)
-        return self.cI <= other.cI and self.cM <= other.cM and \
+        return self.cI <= other.cI and \
+               self.cM <= other.cM and \
                (self.p[0] + self.p[1]) / 2 <= (other.p[0] + other.p[1]) / 2
 
     def is_valid(self, p_max, c_max):
@@ -74,6 +77,8 @@ class Solution(object):
         ----------
         p_max : float
             设定的最大异常率，如果该解的异常率超过该阈值，该解会被丢弃。
+        c_max : int
+            设定的一个DPR覆盖的最大租户数，如果 ``cM`` 的值超过该值，该解会被丢弃。
 
         Returns
         -------
@@ -145,7 +150,7 @@ def solve(post_seq):
 
     Parameters
     ----------
-    post_seq: list of TreeNode
+    post_seq: Iterable
         后序遍历生成的节点序列
 
     Returns
@@ -176,12 +181,12 @@ def merge_solutions(solutions):
 
     Parameters
     ----------
-    solutions: list of Solution
+    solutions : Iterable
         解集列表
 
     Returns
     -------
-    list of Solution
+    list
         合并后的解集，其中的每个解都应满足：和其他的解无法比较大小
     """
     i = 0

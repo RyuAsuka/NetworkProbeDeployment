@@ -110,6 +110,32 @@ def pre_order(tree):
     return result
 
 
+def pre_order_without_leaf(tree):
+    """
+    使用栈方式前序遍历二叉树 （不包含叶节点）
+
+    Parameters
+    ----------
+    tree : TreeNode
+        二叉树根节点
+
+    Returns
+    -------
+    list of TreeNode
+        二叉树的前序遍历顺序
+    """
+    result = []
+    stack = [tree]
+    while stack:
+        node = stack.pop()
+        if node:
+            if not node.is_leaf:
+                result.append(node)
+            stack.append(node.right)
+            stack.append(node.left)
+    return result
+
+
 def mid_order(tree):
     """
     中序遍历二叉树
