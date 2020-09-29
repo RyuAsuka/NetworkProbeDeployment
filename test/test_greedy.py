@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 
 
 if __name__ == '__main__':
-    data_dir = 'real_topo'
+    data_dir = '10eachgroup'
     results = []
     struct = build_struct(f'{data_dir}/random_host.txt')
     # struct = build_struct('4tenants.txt')

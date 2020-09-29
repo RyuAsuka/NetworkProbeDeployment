@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 if __name__ == '__main__':
     # struct = build_struct(f'{data_dir}/{file}')
     # struct = build_struct('4tenants.txt')
-    struct = build_struct('real_topo/random_host.txt')
+    struct = build_struct('10eachgroup/random_host.txt')
     print(struct)
     tree = build_tree(struct, 0)
     # tree.pprint()
