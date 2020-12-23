@@ -235,7 +235,7 @@ class TreeNode(object):
         self.right = right
 
     def __str__(self):
-        return 'Node({})'.format(self.name)
+        return f'Node({self.name}, dpr={self.dpr})'
 
     def pprint(self):
         """
@@ -245,7 +245,7 @@ class TreeNode(object):
         print('\n' + '\n'.join((line.rstrip() for line in lines)), end='')
 
     def __repr__(self):
-        return 'Node({})'.format(self.name)
+        return f'Node({self.name}, dpr={self.dpr})'
 
     @property
     def is_leaf(self):

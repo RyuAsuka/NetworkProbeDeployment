@@ -54,8 +54,17 @@ class Solution(object):
         else:
             self.history = history
 
+    def __hash__(self):
+        return hash(self.cI + self.cM + self.p[0] + self.p[1])
+
+    def __eq__(self, other):
+        if self.cI == other.cI and self.cM == other.cM and self.p[0] == other.p[0] and self.p[1] == other.p[1]:
+            return True
+        else:
+            return False
+
     def __repr__(self):
-        return f'Solution({self.name}: <{self.cI}, {self.cM}, [{self.p[0]}, {self.p[1]}]>, insert_dpr={self.dpr})'
+        return f'Solution({self.name}: <{self.cI}, {self.cM}, [{self.p[0]:.2f}, {self.p[1]:.2f}]>, insert_dpr={self.dpr})'
 
     def __ge__(self, other):
         assert isinstance(other, Solution)
@@ -86,6 +95,19 @@ class Solution(object):
             返回指示该解是否合法的 bool 值。
         """
         return (self.p[0] + self.p[1]) / 2 <= p_max and self.cM <= c_max
+
+    def quality(self):
+        """
+        定义解的质量。
+
+        解的质量定义为其 cI 和 cM 之和。
+
+        Returns
+        -------
+        int
+            解的质量。
+        """
+        return self.cI + self.cM
 
 
 P_MAX = 0.5
@@ -144,6 +166,65 @@ def generate_solutions(node):
                     node.solutions.append(new_sol)
 
 
+def generate_solutions2(node, invalid_solutions):
+    """
+    一个节点的解需要并且只需要左右子节点的解。因此，根据左右子节点的解，生成该节点的解。
+
+    Parameters
+    ----------
+    node: TreeNode
+        树节点
+    """
+    if not node.left:
+        for sr in node.right.solutions:
+            new_sol = Solution(node.name, 0, 0, 0, 0, False)
+            if node.dpr:
+                # 当该节点存在DPR时：
+                # 1. 该解的cI + 1;
+                # 2. 该节点及该节点下游的未发现节点数，即该解的 cM = 0;
+                # 3. 该节点及其全部下游节点的异常率范围为 [0, 0];
+                new_sol.cI = sr.cI + 1
+                new_sol.cM = 0
+                new_sol.p = [0, 0]
+                new_sol.dpr = True
+                new_sol.history.append(1)
+            else:
+                new_sol.cI = sr.cI
+                new_sol.cM = sr.cM
+                new_sol.p = [sr.p[0], sr.p[1]]
+                new_sol.history.append(0)
+            # node.solutions.append(new_sol)
+            if not new_sol.is_valid(P_MAX, C_MAX):
+                invalid_solutions += 1
+            node.solutions.append(new_sol)
+            node.solutions = list(set(node.solutions))
+    else:
+        for sl in node.left.solutions:
+            for sr in node.right.solutions:
+                new_sol = Solution(node.name, 0, 0, 0, 0, False,
+                                   history=sl.history + sr.history)
+                if node.dpr:
+                    new_sol.cI = sl.cI + sr.cI + 1
+                    new_sol.cM = 0
+                    new_sol.p = [0, 0]
+                    new_sol.dpr = True
+                    new_sol.history.append(1)
+                else:
+                    new_sol.cI = sl.cI + sr.cI
+                    new_sol.cM = sl.cM + sr.cM
+                    new_sol.p = [
+                        sl.p[0] + sr.p[0] - sl.p[0] * sr.p[0],
+                        sl.p[1] + sr.p[1] - sl.p[1] * sr.p[1]
+                    ]
+                    new_sol.history.append(0)
+                # node.solutions.append(new_sol)
+                if not new_sol.is_valid(P_MAX, C_MAX):
+                    invalid_solutions += 1
+                node.solutions.append(new_sol)
+                node.solutions = list(set(node.solutions))
+    return invalid_solutions
+
+
 def solve(post_seq):
     """
     后序遍历生成解
@@ -173,6 +254,29 @@ def solve(post_seq):
             generate_solutions(node)
             node.solutions = merge_solutions(node.solutions)
     return post_seq[-1].solutions[0]
+
+
+def solve2(post_seq):
+    """
+    后序遍历，根据已经部署的解反推根节点的解
+
+    Parameters
+    ----------
+    post_seq : list of TreeNode
+        后序遍历生成的节点序列
+
+    Returns
+    -------
+    Solution
+        根节点处的解
+    """
+    invalid_solutions = 0
+    for node in post_seq:
+        if node.is_leaf:
+            continue
+        invalid_solutions = generate_solutions2(node, invalid_solutions)
+        # node.solutions = merge_solutions(node.solutions)
+    return post_seq[-1].solutions[0], invalid_solutions
 
 
 def merge_solutions(solutions):

@@ -9,9 +9,9 @@ import matplotlib.pyplot as plt
 
 
 if __name__ == '__main__':
-    data_dir = '10eachgroup'
+    data_dir = 'real_topo'
     results = []
-    struct = build_struct(f'{data_dir}/random_host.txt')
+    struct = build_struct(f'{data_dir}/autoencoder_result.txt')
     # struct = build_struct('4tenants.txt')
     # struct = build_struct('20tenants.txt')
     print(struct)
