@@ -11,9 +11,10 @@ import matplotlib.pyplot as plt
 if __name__ == '__main__':
     data_dir = 'real_topo'
     results = []
-    struct = build_struct(f'{data_dir}/autoencoder_result.txt')
+    # struct = build_struct(f'{data_dir}/autoencoder_result.txt')
     # struct = build_struct('4tenants.txt')
     # struct = build_struct('20tenants.txt')
+    struct = build_struct('real_topo/autoencoder_result.txt')
     print(struct)
     tree = build_tree(struct, 0)
     # tree.pprint()

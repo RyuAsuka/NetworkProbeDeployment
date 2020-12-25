@@ -53,6 +53,7 @@ def get_solutions_repr(solutions):
 
 if __name__ == '__main__':
     # 生成二叉树结构，并进行后序遍历得到后序遍历序列
+    # struct = build_struct('10eachgroup/random_host.txt')
     struct = build_struct('real_topo/autoencoder_result.txt')
     # pprint(struct)
     tree = build_tree(struct, 0)
@@ -129,5 +130,5 @@ if __name__ == '__main__':
         print()
         result = all_solutions_in_pop[0]
 
-    with open('result_ce.txt', 'w+') as f:
+    with open('result_ce_real.txt', 'w+') as f:
         f.write(str(result))
